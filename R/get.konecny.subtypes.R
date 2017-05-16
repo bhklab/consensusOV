@@ -7,7 +7,7 @@
 #' @examples
 #' library(Biobase)
 #' data(GSE14764.eset)
-#' expression.matrix <- GSE14764.eset
+#' expression.matrix <- exprs(GSE14764.eset)
 #' entrez.ids <- as.character(fData(GSE14764.eset)$EntrezGene.ID)
 #' get.konecny.subtypes(expression.matrix, entrez.ids)
 #' @references Konecny et al. \emph{Prognostic and therapeutic relevance of molecular subtypes in high-grade 

@@ -19,8 +19,9 @@ and second value \code{subtype.scores} containing a matrix of subtype scores
 Get ovarian cancer subtypes as defined by Helland et al., 2011
 }
 \examples{
+library(Biobase)
 data(GSE14764.eset)
-expression.matrix <- GSE14764.eset
+expression.matrix <- exprs(GSE14764.eset)
 entrez.ids <- as.character(fData(GSE14764.eset)$EntrezGene.ID)
 get.helland.subtypes(expression.matrix, entrez.ids)
 }

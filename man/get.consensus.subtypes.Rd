@@ -5,7 +5,7 @@
 \title{Get consensusOV ovarian cancer subtypes}
 \usage{
 get.consensus.subtypes(expression.matrix, entrez.ids,
-  .dataset.names.to.keep = names(esets.not.rescaled.classified),
+  .dataset.names.to.keep = names(esets.rescaled.classified.filteredgenes),
   remove.using.cutoff = FALSE, percentage.dataset.removed = 0.75)
 }
 \arguments{
@@ -21,8 +21,9 @@ and second value \code{rf.probs} containing a matrix of subtype probabilities
 Get consensusOV ovarian cancer subtypes
 }
 \examples{
+library(Biobase)
 data(GSE14764.eset)
-expression.matrix <- GSE14764.eset
+expression.matrix <- exprs(GSE14764.eset)
 entrez.ids <- as.character(fData(GSE14764.eset)$EntrezGene.ID)
 get.consensus.subtypes(expression.matrix, entrez.ids)
 }

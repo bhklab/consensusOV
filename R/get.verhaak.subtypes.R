@@ -7,7 +7,7 @@
 #' @examples
 #' library(Biobase)
 #' data(GSE14764.eset)
-#' expression.matrix <- GSE14764.eset
+#' expression.matrix <- exprs(GSE14764.eset)
 #' entrez.ids <- as.character(fData(GSE14764.eset)$EntrezGene.ID)
 #' get.konecny.subtypes(expression.matrix, entrez.ids)
 #' @references Verhaak et al. \emph{Prognostically relevant gene signatures of high-grade serous ovarian carcinoma.}

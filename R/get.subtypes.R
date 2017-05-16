@@ -2,13 +2,16 @@
 #' 
 #' @param expression.matrix A matrix of gene expression values with rows as genes, columns as samples.
 #' @param entrez.ids A vector of Entrez Gene IDs, corresponding to the rows of \code{expression.matrix}
+#' @param method The subtyping method to use
+#' #param ... Optional parameters to be passed to the low leve function
 #' @return A list with first value \code{Konecny.subtypes} containing a factor of subtype names;
 #' and second value \code{spearman.cc.vals} containing the Spearman correlation values per subtype
 #' @examples
+#' library(Biobase)
 #' data(GSE14764.eset)
-#' expression.matrix <- GSE14764.eset
+#' expression.matrix <- exprs(GSE14764.eset)
 #' entrez.ids <- as.character(fData(GSE14764.eset)$EntrezGene.ID)
-#' get.konecny.subtypes(expression.matrix, entrez.ids)
+#' get.subtypes(expression.matrix, entrez.ids, method="Konecny")
 #' @import Biobase
 #' @export
 get.subtypes <-

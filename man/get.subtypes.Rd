@@ -10,6 +10,9 @@ get.subtypes(expression.dataset, entrez.ids = NULL,
 \arguments{
 \item{entrez.ids}{A vector of Entrez Gene IDs, corresponding to the rows of \code{expression.matrix}}
 
+\item{method}{The subtyping method to use
+#param ... Optional parameters to be passed to the low leve function}
+
 \item{expression.matrix}{A matrix of gene expression values with rows as genes, columns as samples.}
 }
 \value{
@@ -20,8 +23,9 @@ and second value \code{spearman.cc.vals} containing the Spearman correlation val
 Get ovarian cancer subtypes
 }
 \examples{
+library(Biobase)
 data(GSE14764.eset)
-expression.matrix <- GSE14764.eset
+expression.matrix <- exprs(GSE14764.eset)
 entrez.ids <- as.character(fData(GSE14764.eset)$EntrezGene.ID)
-get.konecny.subtypes(expression.matrix, entrez.ids)
+get.subtypes(expression.matrix, entrez.ids, method="Konecny")
 }

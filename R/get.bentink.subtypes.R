@@ -6,8 +6,9 @@
 #' and second value \code{angio} containing the ouput of \code{genefu::ovcAngiogenic}
 #' @examples
 #' library(Biobase)
+#' library(genefu)
 #' data(GSE14764.eset)
-#' expression.matrix <- GSE14764.eset
+#' expression.matrix <- exprs(GSE14764.eset)
 #' entrez.ids <- as.character(fData(GSE14764.eset)$EntrezGene.ID)
 #' get.bentink.subtypes(expression.matrix, entrez.ids)
 #' @references Bentink et al. \emph{Angiogenic mRNA and microRNA gene expression signature predicts

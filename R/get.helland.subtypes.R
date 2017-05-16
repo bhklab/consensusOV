@@ -7,15 +7,17 @@
 #' @examples
 #' library(Biobase)
 #' data(GSE14764.eset)
-#' expression.matrix <- GSE14764.eset
+#' expression.matrix <- exprs(GSE14764.eset)
 #' entrez.ids <- as.character(fData(GSE14764.eset)$EntrezGene.ID)
 #' get.helland.subtypes(expression.matrix, entrez.ids)
 #' @references Helland et al. \emph{Deregulation of MYCN, LIN28B and LET7 in a molecular subtype of 
 #' aggressive high-grade serous ovarian cancers.} PloS one (2011).
+#' @export
 get.helland.subtypes <-
 function(expression.matrix, entrez.ids) {
   
   entrez.ids <- as.character(entrez.ids)
+  helland.gene.set <- Reduce(function(x,y) union(x, y), lapply(entrez.id.logFC.list.helland, function (x) x$ENTREZID))
   intersecting.entrez.ids <- intersect(helland.gene.set, entrez.ids)
   
   # Only keep genes present in both the supplementary and this eset

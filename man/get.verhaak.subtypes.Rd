@@ -19,8 +19,9 @@ and second value \code{gsva} containing the GSVA subtype scores
 Get ovarian cancer subtypes as defined by Verhaak et al., 2013
 }
 \examples{
+library(Biobase)
 data(GSE14764.eset)
-expression.matrix <- GSE14764.eset
+expression.matrix <- exprs(GSE14764.eset)
 entrez.ids <- as.character(fData(GSE14764.eset)$EntrezGene.ID)
 get.konecny.subtypes(expression.matrix, entrez.ids)
 }

@@ -7,13 +7,13 @@
 #' @examples
 #' library(Biobase)
 #' data(GSE14764.eset)
-#' expression.matrix <- GSE14764.eset
+#' expression.matrix <- exprs(GSE14764.eset)
 #' entrez.ids <- as.character(fData(GSE14764.eset)$EntrezGene.ID)
 #' get.consensus.subtypes(expression.matrix, entrez.ids)
 #' @import randomForest
 #' @export
 get.consensus.subtypes <-
-function(expression.matrix, entrez.ids, .dataset.names.to.keep=names(esets.not.rescaled.classified), remove.using.cutoff=FALSE, percentage.dataset.removed = 0.75) {
+function(expression.matrix, entrez.ids, .dataset.names.to.keep=names(esets.rescaled.classified.filteredgenes), remove.using.cutoff=FALSE, percentage.dataset.removed = 0.75) {
   
   ### Load training data
   print("Loading training data")

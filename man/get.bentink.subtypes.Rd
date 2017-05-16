@@ -19,8 +19,10 @@ and second value \code{angio} containing the ouput of \code{genefu::ovcAngiogeni
 Get ovarian cancer subtypes as defined by Bentink et al., 2012
 }
 \examples{
+library(Biobase)
+library(genefu)
 data(GSE14764.eset)
-expression.matrix <- GSE14764.eset
+expression.matrix <- exprs(GSE14764.eset)
 entrez.ids <- as.character(fData(GSE14764.eset)$EntrezGene.ID)
 get.bentink.subtypes(expression.matrix, entrez.ids)
 }
