@@ -5,6 +5,7 @@
 #' @return A list with first value \code{Verhaak.subtypes} containing a factor of subtype names;
 #' and second value \code{gsva} containing the GSVA subtype scores
 #' @examples
+#' library(Biobase)
 #' data(GSE14764.eset)
 #' expression.matrix <- GSE14764.eset
 #' entrez.ids <- as.character(fData(GSE14764.eset)$EntrezGene.ID)

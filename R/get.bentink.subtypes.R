@@ -5,6 +5,7 @@
 #' @return A list with first value \code{Bentink.subtypes} containing a factor of subtype names;
 #' and second value \code{angio} containing the ouput of \code{genefu::ovcAngiogenic}
 #' @examples
+#' library(Biobase)
 #' data(GSE14764.eset)
 #' expression.matrix <- GSE14764.eset
 #' entrez.ids <- as.character(fData(GSE14764.eset)$EntrezGene.ID)

@@ -5,6 +5,7 @@
 #' @return A list with first value \code{Konecny.subtypes} containing a factor of subtype names;
 #' and second value \code{spearman.cc.vals} containing the Spearman correlation values per subtype
 #' @examples
+#' library(Biobase)
 #' data(GSE14764.eset)
 #' expression.matrix <- GSE14764.eset
 #' entrez.ids <- as.character(fData(GSE14764.eset)$EntrezGene.ID)
