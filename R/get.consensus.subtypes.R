@@ -20,12 +20,6 @@ function(expression.matrix, entrez.ids, .dataset.names.to.keep=names(esets.not.r
   expression.matrix <- t(scale(t(expression.matrix)))
   entrez.ids <- as.character(entrez.ids)
   
-  load("/Users/greg/repos/consensusOV/data/entrez.id.union.RData")
-  
-  # Save two datasets: the full merged dataset for classifying new cases, and a list of individual datasets for selecting datasets to use for training
-  # 
-  load("/Users/greg/repos/consensusOV/data/consensus.training.dataset.full.RData")
-  load("/Users/greg/repos/consensusOV/data/esets.rescaled.classified.filteredgenes.RData")
   
   dataset.names.to.keep <- .dataset.names.to.keep
   

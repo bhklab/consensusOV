@@ -14,7 +14,6 @@
 #' @export
 get.konecny.subtypes <-
 function(expression.matrix, entrez.ids) {
-  load("/Users/greg/repos/consensusOV/data/konecny.centroids.RData")
   
   expression.matrix <- t(scale(t(expression.matrix)))
   entrez.ids <- as.character(entrez.ids)

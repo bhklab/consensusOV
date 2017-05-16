@@ -14,7 +14,6 @@
 #' @importFrom GSVA gsva
 #' @export
 get.verhaak.subtypes <- function(expression.matrix, entrez.ids) {
-  load("/Users/greg/repos/consensusOV/verhaak.genesets.entrez.ids.RData")
   entrez.ids <- as.character(entrez.ids)
   rownames(expression.matrix) <- entrez.ids
   ## Get ssGSEA subtype scores

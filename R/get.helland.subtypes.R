@@ -13,8 +13,6 @@
 #' aggressive high-grade serous ovarian cancers.} PloS one (2011).
 get.helland.subtypes <-
 function(expression.matrix, entrez.ids) {
-  load("/Users/greg/repos/consensusOV/data/helland.gene.set.RData")
-  load("/Users/greg/repos/consensusOV/data/entrez.id.logFC.list.helland.RData")
   
   entrez.ids <- as.character(entrez.ids)
   intersecting.entrez.ids <- intersect(helland.gene.set, entrez.ids)
