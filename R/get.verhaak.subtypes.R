@@ -10,7 +10,9 @@
 #' entrez.ids <- as.character(fData(GSE14764.eset)$EntrezGene.ID)
 #' get.konecny.subtypes(expression.matrix, entrez.ids)
 #' @references Verhaak et al. \emph{Prognostically relevant gene signatures of high-grade serous ovarian carcinoma.}
-#'The Journal of Clinical Investigation (2013)
+#' The Journal of Clinical Investigation (2013)
+#' @importFrom GSVA gsva
+#' @export
 get.verhaak.subtypes <- function(expression.matrix, entrez.ids) {
   load("/Users/greg/repos/consensusOV/verhaak.genesets.entrez.ids.RData")
   entrez.ids <- as.character(entrez.ids)

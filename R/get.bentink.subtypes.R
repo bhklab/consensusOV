@@ -11,6 +11,7 @@
 #' get.bentink.subtypes(expression.matrix, entrez.ids)
 #' @references Bentink et al. \emph{Angiogenic mRNA and microRNA gene expression signature predicts
 #' a novel subtype of serous ovarian cancer.} PloS one (2012).
+#' @export
 get.bentink.subtypes <-
 function(expression.matrix, entrez.ids) {
   ## Classify new samples

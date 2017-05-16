@@ -9,6 +9,8 @@
 #' expression.matrix <- GSE14764.eset
 #' entrez.ids <- as.character(fData(GSE14764.eset)$EntrezGene.ID)
 #' get.consensus.subtypes(expression.matrix, entrez.ids)
+#' @import randomForest
+#' @export
 get.consensus.subtypes <-
 function(expression.matrix, entrez.ids, .dataset.names.to.keep=names(esets.not.rescaled.classified), remove.using.cutoff=FALSE, percentage.dataset.removed = 0.75) {
   
@@ -19,7 +21,6 @@ function(expression.matrix, entrez.ids, .dataset.names.to.keep=names(esets.not.r
   entrez.ids <- as.character(entrez.ids)
   
   load("/Users/greg/repos/consensusOV/data/entrez.id.union.RData")
-  load("/Users/greg/repos/consensusOV/data/verhaak.entrez.ids.RData")
   
   # Save two datasets: the full merged dataset for classifying new cases, and a list of individual datasets for selecting datasets to use for training
   # 

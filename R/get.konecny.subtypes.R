@@ -11,25 +11,26 @@
 #' get.konecny.subtypes(expression.matrix, entrez.ids)
 #' @references Konecny et al. \emph{Prognostic and therapeutic relevance of molecular subtypes in high-grade 
 #' serous ovarian cancer.} Journal of the National Cancer Institute (2014).
+#' @export
 get.konecny.subtypes <-
 function(expression.matrix, entrez.ids) {
-  load("/Users/greg/repos/consensusOV/data/centroids.konecny.RData")
+  load("/Users/greg/repos/consensusOV/data/konecny.centroids.RData")
   
   expression.matrix <- t(scale(t(expression.matrix)))
   entrez.ids <- as.character(entrez.ids)
 	## Classify using nearest centroid with Spearman's rho
-  intersecting.entrez.ids <- intersect(entrez.ids, rownames(centroids.konecny))
+  intersecting.entrez.ids <- intersect(entrez.ids, rownames(konecny.centroids))
   
-  centroids.konecny[rownames(centroids.konecny) %in% intersecting.entrez.ids,]
-  centroids.konecny <- centroids.konecny[as.character(intersecting.entrez.ids),]
+  konecny.centroids[rownames(konecny.centroids) %in% intersecting.entrez.ids,]
+  konecny.centroids <- konecny.centroids[as.character(intersecting.entrez.ids),]
   expression.matrix <- expression.matrix[entrez.ids %in% intersecting.entrez.ids,]
   
   expression.matrix <- as.data.frame(expression.matrix)
-  spearman.cc.vals <- sapply(centroids.konecny, function(x) sapply(expression.matrix, function(y) cor(x, y , method="spearman")))
+  spearman.cc.vals <- sapply(konecny.centroids, function(x) sapply(expression.matrix, function(y) cor(x, y , method="spearman")))
   
   subclasses <- apply(spearman.cc.vals, 1, function(x) as.factor(colnames(spearman.cc.vals)[which.max(x)]))
   
-  subclasses <- factor(subclasses, levels=colnames(centroids.konecny))
+  subclasses <- factor(subclasses, levels=colnames(konecny.centroids))
   
   return(list(Konecny.subtypes=subclasses, spearman.cc.vals=spearman.cc.vals))
 }

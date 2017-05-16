@@ -13,14 +13,14 @@
 #' aggressive high-grade serous ovarian cancers.} PloS one (2011).
 get.helland.subtypes <-
 function(expression.matrix, entrez.ids) {
-  load("/Users/greg/repos/consensusOV/data/tothill.gene.set.RData")
-  load("/Users/greg/repos/consensusOV/data/entrez.id.logFC.list.tothill.RData")
+  load("/Users/greg/repos/consensusOV/data/helland.gene.set.RData")
+  load("/Users/greg/repos/consensusOV/data/entrez.id.logFC.list.helland.RData")
   
   entrez.ids <- as.character(entrez.ids)
-  intersecting.entrez.ids <- intersect(tothill.gene.set, entrez.ids)
+  intersecting.entrez.ids <- intersect(helland.gene.set, entrez.ids)
   
   # Only keep genes present in both the supplementary and this eset
-  entrez.id.logFC.list <- lapply(entrez.id.logFC.list.tothill, function(x) x[x$ENTREZID %in% intersecting.entrez.ids, ])
+  entrez.id.logFC.list <- lapply(entrez.id.logFC.list.helland, function(x) x[x$ENTREZID %in% intersecting.entrez.ids, ])
   
   subtype.scores <- sapply(entrez.id.logFC.list, function(x) {
     ordered.expression.subset <- expression.matrix[match(x$ENTREZID, entrez.ids),]

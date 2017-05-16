@@ -9,6 +9,8 @@
 #' expression.matrix <- GSE14764.eset
 #' entrez.ids <- as.character(fData(GSE14764.eset)$EntrezGene.ID)
 #' get.konecny.subtypes(expression.matrix, entrez.ids)
+#' @import Biobase
+#' @export
 get.subtypes <-
 function(expression.dataset, entrez.ids=NULL, method=c("consensusOV", "Helland", "Verhaak", "Konecny", "Bentink"), ...) {
 	method <- match.arg(method)
