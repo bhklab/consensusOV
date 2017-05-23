@@ -8,8 +8,7 @@ Maintainer: Benjamin Haibe-Kains <benjamin.haibe.kains@utoronto.ca>
 Description: Contains a set of functions for subtyping of
 	ovarian cancer.
 License: Artistic-2.0
-Suggests: MetaGxOvarian
-Imports: Biobase, genefu, randomForest, GSVA
+Imports: Biobase,  randomForest, GSVA, gdata
 Depends: R (>= 3.3)
 URL: http://www.pmgenomics.ca/bhklab/software/consensusOV
 RoxygenNote: 6.0.1
