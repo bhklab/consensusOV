@@ -1,8 +1,9 @@
 #' Get ovarian cancer subtypes
 #' 
-#' @param expression.matrix A matrix of gene expression values with rows as genes, columns as samples.
+#' @param expression.dataset None
 #' @param entrez.ids A vector of Entrez Gene IDs, corresponding to the rows of \code{expression.matrix}
 #' @param method The subtyping method to use
+#' @param ... None
 #' #param ... Optional parameters to be passed to the low leve function
 #' @return A list with first value \code{Konecny.subtypes} containing a factor of subtype names;
 #' and second value \code{spearman.cc.vals} containing the Spearman correlation values per subtype

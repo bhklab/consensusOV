@@ -8,12 +8,14 @@ get.subtypes(expression.dataset, entrez.ids = NULL,
   method = c("consensusOV", "Helland", "Verhaak", "Konecny", "Bentink"), ...)
 }
 \arguments{
+\item{expression.dataset}{None}
+
 \item{entrez.ids}{A vector of Entrez Gene IDs, corresponding to the rows of \code{expression.matrix}}
 
-\item{method}{The subtyping method to use
-#param ... Optional parameters to be passed to the low leve function}
+\item{method}{The subtyping method to use}
 
-\item{expression.matrix}{A matrix of gene expression values with rows as genes, columns as samples.}
+\item{...}{None
+#param ... Optional parameters to be passed to the low leve function}
 }
 \value{
 A list with first value \code{Konecny.subtypes} containing a factor of subtype names;
