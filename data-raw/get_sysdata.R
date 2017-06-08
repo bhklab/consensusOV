@@ -73,9 +73,9 @@ save(
   "verhaak.genesets.entrez.ids",
   "esets.rescaled.classified.filteredgenes",
   "consensus.training.dataset.full",
-  file="sysdata.rda")
+  file="sysdata.rda", compress='xz')
 
 ## GSE14764.eset
 load("~/Desktop/mar7_ovcsubtypes/OvcSubtypes/reports/esets.not.rescaled.RData")
 GSE14764.eset <- esets.not.rescaled$GSE14764
-save(GSE14764.eset, file="GSE14764.eset.RData")
+save(GSE14764.eset, file="GSE14764.eset.RData", compress='xz')
