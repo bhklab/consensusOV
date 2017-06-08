@@ -1,1 +1,6 @@
 language: r
+r: bioc-devel
+sudo: required
+
+apt_packages:
+  - libxml2-dev
