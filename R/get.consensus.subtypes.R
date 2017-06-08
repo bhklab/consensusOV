@@ -2,6 +2,9 @@
 #' 
 #' @param expression.matrix A matrix of gene expression values with rows as genes, columns as samples.
 #' @param entrez.ids A vector of Entrez Gene IDs, corresponding to the rows of \code{expression.matrix}
+#' @param .dataset.names.to.keep None
+#' @param remove.using.cutoff None
+#' @param percentage.dataset.removed None
 #' @return A list with first value \code{consensusOV.subtypes} containing a factor of subtype names;
 #' and second value \code{rf.probs} containing a matrix of subtype probabilities
 #' @examples

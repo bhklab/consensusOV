@@ -12,6 +12,12 @@ get.consensus.subtypes(expression.matrix, entrez.ids,
 \item{expression.matrix}{A matrix of gene expression values with rows as genes, columns as samples.}
 
 \item{entrez.ids}{A vector of Entrez Gene IDs, corresponding to the rows of \code{expression.matrix}}
+
+\item{.dataset.names.to.keep}{None}
+
+\item{remove.using.cutoff}{None}
+
+\item{percentage.dataset.removed}{None}
 }
 \value{
 A list with first value \code{consensusOV.subtypes} containing a factor of subtype names;
