@@ -34,7 +34,7 @@ function(expression.matrix, entrez.ids, .dataset.names.to.keep=names(esets.resca
     training.dataset <- consensus.training.dataset.full
   } else{
     esets.training <- esets.rescaled.classified.filteredgenes[dataset.names.to.keep]
-    esets.merged <- MetaGx::datasetMerging(esets.training, method = "intersect", standardization = "none")
+    esets.merged <- datasetMerging(esets.training, method = "intersect", standardization = "none")
     subtype.correspondances <- data.frame(Konecny=c("C1_immL", "C2_diffL", "C3_profL", "C4_mescL"),
                                           Verhaak=c("IMR", "DIF", "PRO", "MES"),
                                           Helland=c("C2", "C4", "C5", "C1"))
