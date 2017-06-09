@@ -78,4 +78,12 @@ save(
 ## GSE14764.eset
 load("~/Desktop/mar7_ovcsubtypes/OvcSubtypes/reports/esets.not.rescaled.RData")
 GSE14764.eset <- esets.not.rescaled$GSE14764
+
+# Only keep genes relevant for examples
+entrez.id.union <- c(as.character(unlist(lapply(entrez.id.logFC.list.helland, function(x) x$ENTREZID))),
+		     unlist(verhaak.genesets.entrez.ids),
+		     rownames(konecny.centroids))
+
+GSE14764.eset <- GSE14764.eset[fData(GSE14764.eset)$EntrezGene.ID %in% entrez.id.union,]
+
 save(GSE14764.eset, file="GSE14764.eset.RData", compress='xz')

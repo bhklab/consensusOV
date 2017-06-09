@@ -2,9 +2,10 @@
 #' 
 #' @param expression.matrix A matrix of gene expression values with rows as genes, columns as samples.
 #' @param entrez.ids A vector of Entrez Gene IDs, corresponding to the rows of \code{expression.matrix}
-#' @param .dataset.names.to.keep None
-#' @param remove.using.cutoff None
-#' @param percentage.dataset.removed None
+#' @param .dataset.names.to.keep Names of MetaGxOvarian datasets to use for training
+#' @param remove.using.cutoff Specify whether to classify NA for samples that do not meet a margin cutoff
+#' @param percentage.dataset.removed If remove.using.cutoff is TRUE, then classify this percentage of 
+#' samples to NA based on margin values
 #' @return A list with first value \code{consensusOV.subtypes} containing a factor of subtype names;
 #' and second value \code{rf.probs} containing a matrix of subtype probabilities
 #' @examples
@@ -34,7 +35,7 @@ function(expression.matrix, entrez.ids, .dataset.names.to.keep=names(esets.resca
     training.dataset <- consensus.training.dataset.full
   } else{
     esets.training <- esets.rescaled.classified.filteredgenes[dataset.names.to.keep]
-    esets.merged <- datasetMerging(esets.training, method = "intersect", standardization = "none")
+    esets.merged <- genefu::datasetMerging(esets.training, method = "intersect", standardization = "none")
     subtype.correspondances <- data.frame(Konecny=c("C1_immL", "C2_diffL", "C3_profL", "C4_mescL"),
                                           Verhaak=c("IMR", "DIF", "PRO", "MES"),
                                           Helland=c("C2", "C4", "C5", "C1"))
@@ -74,7 +75,7 @@ function(expression.matrix, entrez.ids, .dataset.names.to.keep=names(esets.resca
   
   if(remove.using.cutoff) {
     my.predictions.margins <- rowMax(my.predictions.probs) - apply(my.predictions.probs, 1, function(row) sort(row)[3])
-    my.predictions[ecdf(my.predictions.margins)(my.predictions.margins) < 0.75] <- NA
+    my.predictions[ecdf(my.predictions.margins)(my.predictions.margins) < percentage.dataset.removed] <- NA
   }
   
   my.predictions <- factor(my.predictions, levels=c("IMR_consensus", "DIF_consensus", "PRO_consensus", "MES_consensus"))
