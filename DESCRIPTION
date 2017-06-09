@@ -11,5 +11,7 @@ License: Artistic-2.0
 Imports: Biobase, genefu, randomForest, GSVA, gdata
 Depends: R (>= 3.3)
 URL: http://www.pmgenomics.ca/bhklab/software/consensusOV
+Suggests: knitr
+VignetteBuilder: knitr
 RoxygenNote: 6.0.1
 LazyData: true
