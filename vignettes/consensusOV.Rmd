@@ -18,7 +18,7 @@ knitr::opts_chunk$set(echo = TRUE, cache=TRUE)
 `consensusOV` is a package for molecular subtyping for ovarian cancer. It is intended for whole-transcriptome gene expression datasets from patients with high-grade serous ovarian carcinoma. This package includes implementations of four previously published subtype classifiers [@konecny2014prognostic; @verhaak2013prognostically; @bentink2012angiogenic; @helland2011deregulation] and a consensus random forest classifier.
 
 The `get.subtypes()` function is a wrapper for the other package subtyping functions  `get.consensus.subtypes()`, `get.konecny.subtypes()`, `get.verhaak.subtypes()`,
-`get.bentink.subtypes()`, `get.helland.subtypes()`. It can take as input either a matrix of gene expression values and a vector of Entrez IDs; or a BioBase::ExpressionSet following the format of MetaGxOvarian [@gendoo2016metagxdata]. If `expression.dataset` is a matrix, it should be formmated with genes as rows and patients as columns; and `entrez.ids` should be a vector with length the same as `nrow(expression.dataset)`. The `method` argument specifies which of the five subtype classifiers to use.
+`get.bentink.subtypes()`, `get.helland.subtypes()`. It can take as input either a matrix of gene expression values and a vector of Entrez IDs; or a BioBase::ExpressionSet following the format of MetaGxOvarian [@gendoo2016metagxdata]. If `expression.dataset` is a matrix, it should be formatted with genes as rows and patients as columns; and `entrez.ids` should be a vector with length the same as `nrow(expression.dataset)`. The `method` argument specifies which of the five subtype classifiers to use.
 
 ## Load Data
 
@@ -69,6 +69,8 @@ bentink.subtypes <- get.bentink.subtypes(GSE14764.expression.matrix, GSE14764.en
 
 The Konecny, Helland, Verhaak, and Consensus classifiers produce real-valued subtype scores. We can use these in various ways - for example, here, we compute correlations between correspinding subtype scores.
 
+We can compare the subtype scores between the Verhaak and Helland classifiers:
+
 ```{r verhaak_helland, fig.height = 6, fig.width = 6}
 par(mfrow=c(2,2))
 plot(verhaak.subtypes$gsva.out[,"IMR"], helland.subtypes$subtype.scores[,"C2"], xlab="IMR", ylab="C2")
@@ -77,8 +79,10 @@ plot(verhaak.subtypes$gsva.out[,"PRO"], helland.subtypes$subtype.scores[,"C5"], 
 plot(verhaak.subtypes$gsva.out[,"MES"], helland.subtypes$subtype.scores[,"C1"], xlab="MES", ylab="C1")
 ```
 
-Corresponding Spearman correlation values are `r cor(verhaak.subtypes$gsva.out[,"IMR"], helland.subtypes$subtype.scores[,"C2"], method="spearman")`, `r cor(verhaak.subtypes$gsva.out[,"DIF"], helland.subtypes$subtype.scores[,"C4"])`, `r cor(verhaak.subtypes$gsva.out[,"PRO"], helland.subtypes$subtype.scores[,"C5"])`, `r cor(verhaak.subtypes$gsva.out[,"MES"], helland.subtypes$subtype.scores[,"C1"])`
+Corresponding Spearman correlation values are `r cor(verhaak.subtypes$gsva.out[,"IMR"], helland.subtypes$subtype.scores[,"C2"], method="spearman")`, `r cor(verhaak.subtypes$gsva.out[,"DIF"], helland.subtypes$subtype.scores[,"C4"])`, `r cor(verhaak.subtypes$gsva.out[,"PRO"], helland.subtypes$subtype.scores[,"C5"])`, `r cor(verhaak.subtypes$gsva.out[,"MES"], helland.subtypes$subtype.scores[,"C1"])`.
 
+
+Likewise, we can compare the subtype scores between the Konecny and Helland classifier:
 
 ```{r konecny_helland, fig.height = 6, fig.width = 6}
 par(mfrow=c(2,2))
