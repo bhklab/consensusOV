@@ -71,10 +71,10 @@ The Konecny, Helland, Verhaak, and Consensus classifiers produce real-valued sub
 
 ```{r verhaak_helland, fig.height = 6, fig.width = 6}
 par(mfrow=c(2,2))
-plot(verhaak.subtypes$gsva.out[,"IMR"], helland.subtypes$subtype.scores[,"C2"])
-plot(verhaak.subtypes$gsva.out[,"DIF"], helland.subtypes$subtype.scores[,"C4"])
-plot(verhaak.subtypes$gsva.out[,"PRO"], helland.subtypes$subtype.scores[,"C5"])
-plot(verhaak.subtypes$gsva.out[,"MES"], helland.subtypes$subtype.scores[,"C1"])
+plot(verhaak.subtypes$gsva.out[,"IMR"], helland.subtypes$subtype.scores[,"C2"], xlab="IMR", ylab="C2")
+plot(verhaak.subtypes$gsva.out[,"DIF"], helland.subtypes$subtype.scores[,"C4"], xlab="DIF", ylab="C4")
+plot(verhaak.subtypes$gsva.out[,"PRO"], helland.subtypes$subtype.scores[,"C5"], xlab="PRO", ylab="C5")
+plot(verhaak.subtypes$gsva.out[,"MES"], helland.subtypes$subtype.scores[,"C1"], xlab="MES", ylab="C1")
 ```
 
 Corresponding Spearman correlation values are `r cor(verhaak.subtypes$gsva.out[,"IMR"], helland.subtypes$subtype.scores[,"C2"], method="spearman")`, `r cor(verhaak.subtypes$gsva.out[,"DIF"], helland.subtypes$subtype.scores[,"C4"])`, `r cor(verhaak.subtypes$gsva.out[,"PRO"], helland.subtypes$subtype.scores[,"C5"])`, `r cor(verhaak.subtypes$gsva.out[,"MES"], helland.subtypes$subtype.scores[,"C1"])`
@@ -82,10 +82,10 @@ Corresponding Spearman correlation values are `r cor(verhaak.subtypes$gsva.out[,
 
 ```{r konecny_helland, fig.height = 6, fig.width = 6}
 par(mfrow=c(2,2))
-plot(konecny.subtypes$spearman.cc.vals[,"C1_immL"], helland.subtypes$subtype.scores[,"C2"])
-plot(konecny.subtypes$spearman.cc.vals[,"C2_diffL"], helland.subtypes$subtype.scores[,"C4"])
-plot(konecny.subtypes$spearman.cc.vals[,"C3_profL"], helland.subtypes$subtype.scores[,"C5"])
-plot(konecny.subtypes$spearman.cc.vals[,"C4_mescL"], helland.subtypes$subtype.scores[,"C1"])
+plot(konecny.subtypes$spearman.cc.vals[,"C1_immL"], helland.subtypes$subtype.scores[,"C2"], xlab="C1_immL", ylab="C2")
+plot(konecny.subtypes$spearman.cc.vals[,"C2_diffL"], helland.subtypes$subtype.scores[,"C4"], xlab="C2_diffL", ylab="C4")
+plot(konecny.subtypes$spearman.cc.vals[,"C3_profL"], helland.subtypes$subtype.scores[,"C5"], xlab="C3_profL", ylab="C5")
+plot(konecny.subtypes$spearman.cc.vals[,"C4_mescL"], helland.subtypes$subtype.scores[,"C1"], xlab="C4_mescL", ylab="C1")
 ```
 
 Corresponding Spearman correlation values are `r cor(konecny.subtypes$spearman.cc.vals[,"C1_immL"], helland.subtypes$subtype.scores[,"C2"])`, `r cor(konecny.subtypes$spearman.cc.vals[,"C2_diffL"], helland.subtypes$subtype.scores[,"C4"])`, `r cor(konecny.subtypes$spearman.cc.vals[,"C3_profL"], helland.subtypes$subtype.scores[,"C5"])`, `r cor(konecny.subtypes$spearman.cc.vals[,"C4_mescL"], helland.subtypes$subtype.scores[,"C1"])`
