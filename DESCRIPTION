@@ -8,7 +8,7 @@ Maintainer: Benjamin Haibe-Kains <benjamin.haibe.kains@utoronto.ca>
 Description: Contains a set of functions for subtyping of
 	ovarian cancer.
 License: Artistic-2.0
-Imports: stats, utils, limma, Biobase, genefu, randomForest, GSVA, gdata
+Imports: stats, utils, limma, Biobase, randomForest, GSVA, gdata
 Depends: R (>= 3.4)
 URL: http://www.pmgenomics.ca/bhklab/software/consensusOV
 Suggests: knitr
