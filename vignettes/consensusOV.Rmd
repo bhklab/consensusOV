@@ -12,7 +12,6 @@ bibliography: bibliography.bib
 knitr::opts_chunk$set(echo = TRUE, cache=TRUE)
 ```
 
-
 ## Introduction
 
 `consensusOV` is a package for molecular subtyping for ovarian cancer. It is intended for whole-transcriptome gene expression datasets from patients with high-grade serous ovarian carcinoma. This package includes implementations of four previously published subtype classifiers [@konecny2014prognostic; @verhaak2013prognostically; @bentink2012angiogenic; @helland2011deregulation] and a consensus random forest classifier.
