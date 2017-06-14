@@ -1,6 +1,8 @@
 language: r
 r: bioc-devel
 sudo: required
+cache: packages
 
 apt_packages:
+  - qpdf
   - libxml2-dev

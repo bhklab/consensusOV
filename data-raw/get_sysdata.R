@@ -42,7 +42,7 @@ helland.gene.set <- Reduce(function(x,y) union(x, y), lapply(entrez.id.logFC.lis
 
 ## verhaak.genesets.entrez.ids
 verhaak.supplementary.data.sheet7 <- read.xls(system.file("extdata", "JCI65833sd1.xls", package="MetaGx"), sheet=7, skip=1)
-  
+
 verhaak.gene.symbols <- lapply(levels(verhaak.supplementary.data.sheet7$CLASS), function(y) as.character(verhaak.supplementary.data.sheet7[verhaak.supplementary.data.sheet7$CLASS==y,1]))
 
 names(verhaak.gene.symbols) <- levels(verhaak.supplementary.data.sheet7$CLASS)
@@ -65,7 +65,7 @@ esets.rescaled.classified.filteredgenes <- lapply(esets.not.rescaled.classified,
   })
 
 
-consensus.training.dataset.full <- MetaGx::datasetMerging(esets.rescaled.classified.filteredgenes, method = "intersect", standardization = "none")
+consensus.training.dataset.full <- dataset.merging(esets.rescaled.classified.filteredgenes, method = "intersect", standardization = "none")
 
 save(
   "konecny.centroids",
