@@ -8,14 +8,15 @@ get.subtypes(expression.dataset, entrez.ids = NULL,
   method = c("consensusOV", "Helland", "Verhaak", "Konecny", "Bentink"), ...)
 }
 \arguments{
-\item{expression.dataset}{None}
+\item{expression.dataset}{Either a matrix of gene expression values with rows as genes, columns as samples;
+or a BioBase::ExpressionSet object from MetaGxOvarian. If \code{expression.dataset} is a matrix, then
+\code{entrez.ids} must have length equal to the number of rows of \code{expression.dataset}.}
 
-\item{entrez.ids}{A vector of Entrez Gene IDs, corresponding to the rows of \code{expression.matrix}}
+\item{entrez.ids}{A vector of Entrez Gene IDs, corresponding to the rows of \code{expression.dataset}}
 
 \item{method}{The subtyping method to use}
 
-\item{...}{None
-#param ... Optional parameters to be passed to the low leve function}
+\item{...}{Optional parameters to be passed to the low level function}
 }
 \value{
 A list with first value \code{Konecny.subtypes} containing a factor of subtype names;

@@ -13,11 +13,12 @@ get.consensus.subtypes(expression.matrix, entrez.ids,
 
 \item{entrez.ids}{A vector of Entrez Gene IDs, corresponding to the rows of \code{expression.matrix}}
 
-\item{.dataset.names.to.keep}{None}
+\item{.dataset.names.to.keep}{Names of MetaGxOvarian datasets to use for training}
 
-\item{remove.using.cutoff}{None}
+\item{remove.using.cutoff}{Specify whether to classify NA for samples that do not meet a margin cutoff}
 
-\item{percentage.dataset.removed}{None}
+\item{percentage.dataset.removed}{If remove.using.cutoff is TRUE, then classify this percentage of
+samples to NA based on margin values}
 }
 \value{
 A list with first value \code{consensusOV.subtypes} containing a factor of subtype names;
