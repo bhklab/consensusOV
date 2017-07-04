@@ -27,32 +27,6 @@ dataset.merging <-
         method <- match.arg(method)
         standardization <- match.arg(standardization)
 
-        strip.white.space <-
-            function (str, method=c("both", "head", "tail")) {
-                method <- match.arg(method)
-                str2 <- NULL
-                if (length(str) == 1) {
-                    switch (method,
-                            "both" = {
-                                str2 <- gsub("^[ \t]+", "", str)
-                                str2 <- gsub("[ \t]+$", "", str2)
-                            },
-                            "head" = {
-                                str2 <- gsub("^[ \t]+", "", str)
-                            }
-                            # Is this code necessary???
-                            #,
-                            #"tail" = {
-                            #   str2 <- gsub("[ \t]+$", "", tt)
-                            #}
-                    )
-                    return (str2)
-                } else {
-                    str2 <- sapply(str, strip.white.space, method=method)
-                    return (str2)
-                }
-        }
-
         ## all unique Entrez gene ids
         ## gene ids
         ugid <- lapply(esets, function(x) {
@@ -71,13 +45,13 @@ dataset.merging <-
                 "intersect" = {
                     feature.merged <-
                         lapply(esets, function(x) {
-                            return(strip.white.space(as.character(Biobase::fData(x)[, "EntrezGene.ID"])))
+                            return(base::trimws(as.character(Biobase::fData(x)[, "EntrezGene.ID"])))
                         })
                     feature.merged <- table(unlist(feature.merged))
                     feature.merged <-
                         names(feature.merged)[feature.merged == length(esets)]
                     feature.merged <-
-                        ugid[match(feature.merged, strip.white.space(as.character(ugid[, "EntrezGene.ID"]))), , drop =
+                        ugid[match(feature.merged, base::trimwse(as.character(ugid[, "EntrezGene.ID"]))), , drop =
                                  FALSE]
                 },
                 {
