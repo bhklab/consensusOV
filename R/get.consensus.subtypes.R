@@ -61,7 +61,7 @@ function(expression.matrix, entrez.ids, .dataset.names.to.keep=names(esets.resca
   train.expression.matrix <- t(exprs(training.dataset)[match(intersecting.entrez.ids, fData(training.dataset)$EntrezGene.ID),])
 
   train.pairwise.matrix <-
-    apply(combn(1:length(intersecting.entrez.ids),2), 2, function(pair) train.expression.matrix[,pair[1]] > train.expression.matrix[,pair[2]])
+    apply(combn(seq_along(length(intersecting.entrez.ids),2)), 2, function(pair) train.expression.matrix[,pair[1]] > train.expression.matrix[,pair[2]])
   train.pairwise.vals <- as.data.frame(train.pairwise.matrix)
 
   rf.model <- randomForest(x=train.pairwise.vals, y=train.labels)
@@ -69,7 +69,7 @@ function(expression.matrix, entrez.ids, .dataset.names.to.keep=names(esets.resca
   test.expression.matrix <- t(expression.matrix[match(intersecting.entrez.ids, entrez.ids),])
 
   test.pairwise.matrix <-
-    apply(combn(1:length(intersecting.entrez.ids),2), 2, function(pair) test.expression.matrix[,pair[1]] > test.expression.matrix[,pair[2]])
+    apply(combn(seq_along(length(intersecting.entrez.ids),2)), 2, function(pair) test.expression.matrix[,pair[1]] > test.expression.matrix[,pair[2]])
   test.pairwise.vals <- as.data.frame(test.pairwise.matrix)
 
   my.predictions <- predict(rf.model, newdata = test.pairwise.vals)
