@@ -5,8 +5,7 @@ Version: 0.99.0
 Date: 2017-05-10
 Author: Gregory M Chen, Lavanya Kannan, Levi Waldron, Benjamin Haibe-Kains
 Maintainer: Benjamin Haibe-Kains <benjamin.haibe.kains@utoronto.ca>
-Description: Contains a set of functions for subtyping of
-	ovarian cancer.
+Description: This package implements three major subtype classifiers for high-grade serous (HGS) ovarian cancer as described by Helland et al. (PLoS One, 2011), Verhaak et al. (J Clin Invest, 2013), and Konecny et al. (J Natl Cancer Inst, 2014). In addition, the package implements a consensus classifier, which consolidates and improves on the robustness of the three proposed subtype classifiers, thereby providing reliable stratification of patients with HGS ovarian tumors of clearly defined subtype.  
 License: Artistic-2.0
 Imports: stats, utils, limma, genefu, Biobase, randomForest, GSVA, gdata
 Depends: R (>= 3.4)
