@@ -78,7 +78,7 @@ function(expression.matrix,
   ])
 
   train.pairwise.matrix <-
-    apply(combn(seq_along(length(intersecting.entrez.ids),2)), 2,
+    apply(combn(seq_len(length(intersecting.entrez.ids)),2), 2,
           function(pair) {
             train.expression.matrix[,pair[1]] > train.expression.matrix[,pair[2]]
           })
@@ -91,7 +91,7 @@ function(expression.matrix,
   )
 
   test.pairwise.matrix <-
-    apply(combn(seq_along(length(intersecting.entrez.ids),2)), 2,
+    apply(combn(seq_len(length(intersecting.entrez.ids)),2), 2,
           function(pair) {
               test.expression.matrix[,pair[1]] > test.expression.matrix[,pair[2]]
           })
