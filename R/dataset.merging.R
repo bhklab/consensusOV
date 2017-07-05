@@ -2,7 +2,8 @@
 #'
 #' @param esets The list containing all GSE file that need to be merged.
 #' @param method either "unique" or "intersect" is use to for selecting geneid
-#' @param standardization choose between "quantile", "robust.scaling", "scaling" or "none"
+#' @param standardization choose between "quantile", "robust.scaling", "scaling"
+#'  or "none"
 #' @param nthread number of threads (1 by default)
 #' @return The merging eset
 #' @importFrom gdata combine
@@ -16,9 +17,9 @@ dataset.merging <-
         #
         # Args:
         #   esets: The list containing all GSE file that need to be merged.
-        #   duplication.checker: A marker, either TRUE or FALSE if you you want to verify
-        #                        wheter or not you have duplicate samples into your master
-        #                        gene expression matrix.
+        #   duplication.checker: A marker, either TRUE or FALSE if you you want
+        #                        to verify whether or not you have duplicate
+        #                        samples into your master gene expression matrix.
         #   survdata: For t.fs and e.fs
         #   time.cens: maximum follow up (years)
         #   Method: either "unique" or "intersect" is use to for selecting geneid
@@ -26,32 +27,6 @@ dataset.merging <-
 
         method <- match.arg(method)
         standardization <- match.arg(standardization)
-
-        strip.white.space <-
-            function (str, method=c("both", "head", "tail")) {
-                method <- match.arg(method)
-                str2 <- NULL
-                if (length(str) == 1) {
-                    switch (method,
-                            "both" = {
-                                str2 <- gsub("^[ \t]+", "", str)
-                                str2 <- gsub("[ \t]+$", "", str2)
-                            },
-                            "head" = {
-                                str2 <- gsub("^[ \t]+", "", str)
-                            }
-                            # Is this code necessary???
-                            #,
-                            #"tail" = {
-                            #   str2 <- gsub("[ \t]+$", "", tt)
-                            #}
-                    )
-                    return (str2)
-                } else {
-                    str2 <- sapply(str, strip.white.space, method=method)
-                    return (str2)
-                }
-        }
 
         ## all unique Entrez gene ids
         ## gene ids
@@ -63,7 +38,8 @@ dataset.merging <-
             ugid[!is.na(ugid[, "EntrezGene.ID"]) &
                      !duplicated(ugid[, "EntrezGene.ID"]), , drop = FALSE]
         rownames(ugid) <-
-            gsub(sprintf("(%s).", paste(names(esets), collapse = "|")), "", rownames(ugid))
+            gsub(sprintf("(%s).", paste(names(esets), collapse = "|")), "",
+                 rownames(ugid))
         switch (method,
                 "union" = {
                     feature.merged <- ugid
@@ -71,22 +47,28 @@ dataset.merging <-
                 "intersect" = {
                     feature.merged <-
                         lapply(esets, function(x) {
-                            return(strip.white.space(as.character(Biobase::fData(x)[, "EntrezGene.ID"])))
+                            return(base::trimws(
+                                as.character(
+                                    Biobase::fData(x)[, "EntrezGene.ID"]
+                                )
+                            ))
                         })
                     feature.merged <- table(unlist(feature.merged))
                     feature.merged <-
                         names(feature.merged)[feature.merged == length(esets)]
                     feature.merged <-
-                        ugid[match(feature.merged, strip.white.space(as.character(ugid[, "EntrezGene.ID"]))), , drop =
-                                 FALSE]
+                        ugid[match(feature.merged, base::trimwse(
+                            as.character(ugid[, "EntrezGene.ID"]))),
+                            ,
+                            drop = FALSE]
                 },
                 {
                     stop("Unknown method")
                 })
         ## expression data
         exprs.merged <- lapply(esets, function (x, y) {
-            ee <-
-                Biobase::exprs(x)[is.element(rownames(exprs(x)), rownames(feature.merged)),]
+            ee <- Biobase::exprs(x)[is.element(rownames(exprs(x)),
+                                               rownames(feature.merged)),]
             #print(dim(ee))
             eem <-
                 matrix(
@@ -114,10 +96,12 @@ dataset.merging <-
         clinicinfo.merged <- do.call(combine, clinicinfo.merged)
         # if a data.source column already exists, remove it
         clinicinfo.merged$data.source <- NULL
-        colnames(clinicinfo.merged)[which(colnames(clinicinfo.merged) == "source")] <-
-            "data.source"
+        colnames(clinicinfo.merged)[
+            which(colnames(clinicinfo.merged) == "source")
+        ] <- "data.source"
         rownames(clinicinfo.merged) <- colnames(exprs.merged)
-        #   rownames(clinicinfo.merged) <- gsub(   sprintf("(%s).", paste(names(esets), collapse="|")), "", rownames(clinicinfo.merged)         )
+        #   rownames(clinicinfo.merged) <- gsub(   sprintf("(%s).",
+        # paste(names(esets), collapse="|")), "", rownames(clinicinfo.merged)
         #   ## create a merged expressionSet object
         eset.merged <-
             ExpressionSet(
@@ -131,13 +115,16 @@ dataset.merging <-
                  version = "0")
         annotation(eset.merged) <- "mixed"
         ## subtyping
-        # Note that experimentData does not subset according to other ExpressionSet fields. For now, this section is commented out.
+        # Note that experimentData does not subset according to other
+        # ExpressionSet fields. For now, this section is commented out.
         #  sbtn <- lapply(esets, function (x) {
         #    return (colnames(getSubtype(eset=x, method="fuzzy")))
         #  })
         #  if (!all(sapply(sbtn, is.null))) {
         #    sbtn <- table(unlist(sbtn))
-        #    if (!all(sbtn == length(esets))) { stop("Different subtyping across esets") }
+        #    if (!all(sbtn == length(esets))) {
+        #       stop("Different subtyping across esets")
+        #    }
         #    sclass <- lapply(esets, getSubtype, method="class")
         ##     nn <- unlist(sapply(sclass, names))
         ##     sclass <- unlist(sclass)
@@ -149,7 +136,8 @@ dataset.merging <-
         #    rownames(sfuzzy) <- sampleNames(eset.merged)
         #    scrisp <- do.call(rbind, lapply(esets, getSubtype, method="crisp"))
         #    message("going to set the subtype")
-        #    eset.merged <- setSubtype(eset=eset.merged, subtype.class=sclass, subtype.fuzzy=sfuzzy, subtype.crisp=scrisp)
+        #    eset.merged <- setSubtype(eset=eset.merged, subtype.class=sclass,
+        #    subtype.fuzzy=sfuzzy, subtype.crisp=scrisp)
         #    rownames(fData(eset.merged)) <- fData(eset.merged)[,"EntrezGene.ID"]
         #    message("set the subtype complete for merged")
         #  }

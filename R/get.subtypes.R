@@ -1,13 +1,17 @@
 #' Get ovarian cancer subtypes
-#' 
-#' @param expression.dataset Either a matrix of gene expression values with rows as genes, columns as samples;
-#' or a BioBase::ExpressionSet object from MetaGxOvarian. If \code{expression.dataset} is a matrix, then
-#' \code{entrez.ids} must have length equal to the number of rows of \code{expression.dataset}.
-#' @param entrez.ids A vector of Entrez Gene IDs, corresponding to the rows of \code{expression.dataset}
+#'
+#' @param expression.dataset Either a matrix of gene expression values with rows
+#'  as genes, columns as samples;
+#' or a BioBase::ExpressionSet object from MetaGxOvarian.
+#' If \code{expression.dataset} is a matrix, then \code{entrez.ids} must have
+#' length equal to the number of rows of \code{expression.dataset}.
+#' @param entrez.ids A vector of Entrez Gene IDs, corresponding to the rows of
+#' \code{expression.dataset}
 #' @param method The subtyping method to use
 #' @param ... Optional parameters to be passed to the low level function
-#' @return A list with first value \code{Konecny.subtypes} containing a factor of subtype names;
-#' and second value \code{spearman.cc.vals} containing the Spearman correlation values per subtype
+#' @return A list with first value \code{Konecny.subtypes} containing a factor
+#' of subtype names; and second value \code{spearman.cc.vals} containing the
+#' Spearman correlation values per subtype
 #' @examples
 #' library(Biobase)
 #' data(GSE14764.eset)
@@ -17,7 +21,9 @@
 #' @import Biobase
 #' @export
 get.subtypes <-
-function(expression.dataset, entrez.ids=NULL, method=c("consensusOV", "Helland", "Verhaak", "Konecny", "Bentink"), ...) {
+function(expression.dataset, entrez.ids=NULL,
+         method=c("consensusOV", "Helland", "Verhaak", "Konecny", "Bentink"),
+         ...) {
 	method <- match.arg(method)
 	if(is.null(entrez.ids) && class(expression.dataset) != "ExpressionSet") {
 		stop("If entrez.ids are not provided, expression.dataset must be of class 'ExpressionSet' from MetaGxOvarian")
@@ -29,7 +35,7 @@ function(expression.dataset, entrez.ids=NULL, method=c("consensusOV", "Helland",
 		stop("The length of entrez.ids must be equal to the number of rows of expression.dataset")
 	}
 	dataFromMetaGx <- is.null(entrez.ids)
-	
+
 	if(dataFromMetaGx) {
 		expression.matrix <- exprs(expression.dataset)
 		entrez.ids <- as.character(fData(expression.dataset)$EntrezGene.ID)
@@ -48,6 +54,6 @@ function(expression.dataset, entrez.ids=NULL, method=c("consensusOV", "Helland",
 	} else if(method == "Bentink") {
 	  subtypes.output <- get.bentink.subtypes(expression.matrix, entrez.ids, ...)
 	}
-	
+
 	return(subtypes.output)
 }
