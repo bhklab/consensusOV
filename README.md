@@ -1,5 +1,5 @@
 # consensusOV #
-[![Travis Build Status](https://travis-ci.org/bhklab/consensusOV.svg?branch=master)](https://travis-ci.org/bhklab/consensusOV) [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/kofiav/consensusOV?branch=master&svg=true)](https://ci.appveyor.com/project/kofiav/consensusOV)
+[![Travis Build Status](https://travis-ci.org/bhklab/consensusOV.svg?branch=master)](https://travis-ci.org/bhklab/consensusOV) [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/vwhhs1u13uflswvn/branch/master?svg=true)](https://ci.appveyor.com/project/kofiav/consensusOV)
 
 Overview
 --------
