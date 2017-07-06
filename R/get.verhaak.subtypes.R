@@ -26,15 +26,21 @@ get.verhaak.subtypes <- function(expression.matrix, entrez.ids) {
                    method="ssgsea", tau=0.75, parallel.sz=4, mx.diff=FALSE,
                    ssgsea.norm=FALSE)
   gsva.out <- t(gsva.out)
+  #gsva.out <- apply(gsva.out, 2,
+  #                  function(x) ( x - min(x) ) / ( max(x) - min(x) ))
+  # making this more efficient:	 	
+  minM <- matrixStats::colMins(gsva.out)
+  maxM <- matrixStats::colMaxs(gsva.out)
+  diffMM <- maxM - minM
 
-  gsva.out <- apply(gsva.out, 2,
-                    function(x) ( x - min(x) ) / ( max(x) - min(x) ))
-
+  gsva.out <- sweep(gsva.out, 2, minM)
+  gsva.out <- sweep(gsva.out, 2, diffMM, FUN="/")
+		
   ## Classify each sample according to the max ssGSEA subtype score
-
-  subclasses <- apply(gsva.out, 1, function(x) colnames(gsva.out)[which.max(x)])
-
+  ind <- apply(gsva.out, 1, which.max)
+  subclasses <- colnames(gsva.out)[ind]
   subclasses <- factor(subclasses, levels=c("IMR", "DIF", "PRO", "MES"))
+
   ## Append a new column for Verhaak subtypes
   return(list(Verhaak.subtypes=subclasses, gsva.out=gsva.out))
 }

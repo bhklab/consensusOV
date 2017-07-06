@@ -6,13 +6,9 @@ library(hgu133plus2.db)
 
 konecny.supplementary.data <- gdata::read.xls(
     system.file("extdata", "jnci_JNCI_14_0249_s05.xls", package="MetaGx"),
-    sheet=4)
+    sheet=4, stringsAsFactors=FALSE)
 
 # Subset supplementary.data to consist of centroids with intersecting genes
-
-konecny.supplementary.data <- gdata::read.xls(
-    system.file("extdata", "jnci_JNCI_14_0249_s05.xls", package="MetaGx"),
-    sheet=4)
 konecny.centroids <- konecny.supplementary.data[,c(2,4:7)]
 konecny.centroids[,2:5] <- sapply(
     konecny.centroids[,2:5],
@@ -24,16 +20,16 @@ konecny.centroids <- konecny.centroids[,-1]
 ## entrez.id.logFC.list.helland
 helland.supplementary.type.1 <- gdata::read.xls(
     system.file("extdata", "journal.pone.0018064.s015.XLS", package="MetaGx"),
-    sheet=1)
+    sheet=1, stringsAsFactors=FALSE)
 helland.supplementary.type.2 <- gdata::read.xls(
     system.file("extdata", "journal.pone.0018064.s015.XLS", package="MetaGx"),
-    sheet=2)
+    sheet=2, stringsAsFactors=FALSE)
 helland.supplementary.type.4 <- gdata::read.xls(
     system.file("extdata", "journal.pone.0018064.s015.XLS", package="MetaGx"),
-    sheet=3)
+    sheet=3, stringsAsFactors=FALSE)
 helland.supplementary.type.5 <- gdata::read.xls(
     system.file("extdata", "journal.pone.0018064.s015.XLS", package="MetaGx"),
-    sheet=4)
+    sheet=4, stringsAsFactors=FALSE)
 helland.supplementary.tables <- list(
     C1=helland.supplementary.type.1,
     C2=helland.supplementary.type.2,

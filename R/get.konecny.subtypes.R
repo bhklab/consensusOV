@@ -22,7 +22,7 @@ function(expression.matrix, entrez.ids) {
 
   expression.matrix <- t(scale(t(expression.matrix)))
   entrez.ids <- as.character(entrez.ids)
-	## Classify using nearest centroid with Spearman's rho
+  ## Classify using nearest centroid with Spearman's rho
   intersecting.entrez.ids <- intersect(entrez.ids, rownames(konecny.centroids))
 
   konecny.centroids[rownames(konecny.centroids) %in% intersecting.entrez.ids,]
@@ -35,10 +35,8 @@ function(expression.matrix, entrez.ids) {
       function(x) sapply(expression.matrix,
                          function(y) cor(x, y , method="spearman")))
 
-  subclasses <- apply(
-      spearman.cc.vals, 1,
-      function(x) as.factor(colnames(spearman.cc.vals)[which.max(x)]))
-
+  ind <- apply(spearman.cc.vals, 1, which.max)
+  subclasses <- colnames(spearman.cc.vals)[ind]
   subclasses <- factor(subclasses, levels=colnames(konecny.centroids))
 
   return(list(Konecny.subtypes=subclasses, spearman.cc.vals=spearman.cc.vals))

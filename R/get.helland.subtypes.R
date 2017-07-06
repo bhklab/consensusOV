@@ -21,9 +21,8 @@ get.helland.subtypes <-
 function(expression.matrix, entrez.ids) {
 
   entrez.ids <- as.character(entrez.ids)
-  helland.gene.set <- Reduce(function(x,y) union(x, y),
-                             lapply(entrez.id.logFC.list.helland,
-                                    function (x) x$ENTREZID))
+  eids <- lapply(entrez.id.logFC.list.helland, function (x) x$ENTREZID)
+  helland.gene.set <- Reduce(function(x,y) union(x, y), eids)
   intersecting.entrez.ids <- intersect(helland.gene.set, entrez.ids)
 
   # Only keep genes present in both the supplementary and this eset
@@ -33,14 +32,18 @@ function(expression.matrix, entrez.ids) {
 
   subtype.scores <- sapply(entrez.id.logFC.list, function(x) {
     ordered.expression.subset <- expression.matrix[match(x$ENTREZID, entrez.ids),]
-    return(apply(ordered.expression.subset, 2, function(y) sum((y * x$logFC))))
+	res <- colSums(ordered.expression.subset * x$logFC)
+    return(res)
   })
+
   old.rownames <- rownames(subtype.scores)
   # Scale to mean=0, variance=1
   subtype.scores <- apply(subtype.scores, 2, scale)
   rownames(subtype.scores) <- old.rownames
-  subclasses <- factor(colnames(subtype.scores)[apply(subtype.scores, 1, which.max)],
-                       levels=c("C2", "C4", "C5", "C1"))
+
+  ind <- apply(subtype.scores, 1, which.max)
+  subclasses <- colnames(subtype.scores)[ind]	
+  subclasses <- factor(subclasses, levels=c("C2", "C4", "C5", "C1"))
 
   return(list(Helland.subtypes=subclasses, subtype.scores=subtype.scores))
 }
