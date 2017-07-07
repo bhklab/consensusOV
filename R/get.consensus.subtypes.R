@@ -36,7 +36,6 @@ function(expression.matrix,
   expression.matrix <- t(scale(t(expression.matrix)))
   entrez.ids <- as.character(entrez.ids)
 
-
   dataset.names.to.keep <- .dataset.names.to.keep
 
   if(length(dataset.names.to.keep) == length(esets.rescaled.classified.filteredgenes) &&
@@ -73,28 +72,23 @@ function(expression.matrix,
 
   print("Training Random Forest...")
 
-  train.expression.matrix <- t(exprs(training.dataset)[
-      match(intersecting.entrez.ids, fData(training.dataset)$EntrezGene.ID),
-  ])
+  eids <- fData(training.dataset)$EntrezGene.ID
+  ind <- match(intersecting.entrez.ids, eids)
+  train.expression.matrix <- t(exprs(training.dataset)[ind,])
 
-  train.pairwise.matrix <-
-    apply(combn(seq_len(length(intersecting.entrez.ids)),2), 2,
-          function(pair) {
-            train.expression.matrix[,pair[1]] > train.expression.matrix[,pair[2]]
-          })
+  comb.mat <- combn(seq_along(intersecting.entrez.ids), 2)
+  train.pairwise.matrix <- apply(comb.mat, 2, function(pair) 
+  	train.expression.matrix[,pair[1]] > train.expression.matrix[,pair[2]])
   train.pairwise.vals <- as.data.frame(train.pairwise.matrix)
 
   rf.model <- randomForest(x=train.pairwise.vals, y=train.labels)
 
-  test.expression.matrix <- t(
-      expression.matrix[match(intersecting.entrez.ids, entrez.ids),]
-  )
+  ind <- match(intersecting.entrez.ids, entrez.ids)
+  test.expression.matrix <- t(expression.matrix[ind,])
 
-  test.pairwise.matrix <-
-    apply(combn(seq_len(length(intersecting.entrez.ids)),2), 2,
-          function(pair) {
-              test.expression.matrix[,pair[1]] > test.expression.matrix[,pair[2]]
-          })
+  comb.mat <- combn(seq_along(intersecting.entrez.ids), 2)
+  test.pairwise.matrix <- apply(comb.mat, 2, function(pair) 
+    test.expression.matrix[,pair[1]] > test.expression.matrix[,pair[2]])
   test.pairwise.vals <- as.data.frame(test.pairwise.matrix)
 
   my.predictions <- predict(rf.model, newdata = test.pairwise.vals)
@@ -103,15 +97,14 @@ function(expression.matrix,
                                   type = 'prob')
 
   if(remove.using.cutoff) {
-    my.predictions.margins <-
-        rowMax(my.predictions.probs) - apply(my.predictions.probs,
-                                             1,
-                                             function(row) sort(row)[3])
-    my.predictions[
-        ecdf(my.predictions.margins)(my.predictions.margins) < percentage.dataset.removed
-    ] <- NA
+   	subtr <- apply(my.predictions.probs, 1, function(row) sort(row)[3])
+	my.predictions.margins <- rowMax(my.predictions.probs) - subtr    
+	ecdf.evaluated <- ecdf(my.predictions.margins)(my.predictions.margins)
+    na.ind <- ecdf.evaluated < percentage.dataset.removed
+    my.predictions[na.ind] <- NA
   }
 
+  names(my.predictions) <- NULL
   my.predictions <- factor(my.predictions, levels=c("IMR_consensus",
                                                     "DIF_consensus",
                                                     "PRO_consensus",
