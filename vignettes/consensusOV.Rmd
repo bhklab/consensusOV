@@ -24,47 +24,53 @@ The `get.subtypes()` function is a wrapper for the other package subtyping funct
 `get.bentink.subtypes()`, `get.helland.subtypes()`. It can take as input either a matrix of gene expression values and a vector of Entrez IDs; or a BioBase::ExpressionSet following the format of MetaGxOvarian [@gendoo2016metagxdata]. If `expression.dataset` is a matrix, it should be formatted with genes as rows and patients as columns; and `entrez.ids` should be a vector with length the same as `nrow(expression.dataset)`. The `method` argument specifies which of the five subtype classifiers to use.
 
 ## Load Data
-
-The package contains a subset of `GSE14764` as sample data.
-
-```{r load_data, results='hide'}
+```{r load_pkgs, message=FALSE}
 library(consensusOV)
 library(Biobase)
 library(genefu)
-data(GSE14764.eset)
-GSE14764.expression.matrix <- exprs(GSE14764.eset)
-GSE14764.entrez.ids <- fData(GSE14764.eset)$EntrezGene.ID
 ```
 
-
-```{r view_dimensions, results='asis'}
+The package contains a subset of the ovarian cancer microarray dataset `GSE14764` as example data.
+```{r load_data, message=FALSE}
+data(GSE14764.eset)
 dim(GSE14764.eset)
+GSE14764.expression.matrix <- exprs(GSE14764.eset)
+GSE14764.expression.matrix[1:5,1:5]
+GSE14764.entrez.ids <- fData(GSE14764.eset)$EntrezGene.ID
+head(GSE14764.entrez.ids)
 ```
 
 ## Subtyping
 
-```{r subtyping, results="hide"}
+```{r subtyping}
 bentink.subtypes <- get.subtypes(GSE14764.eset, method = "Bentink")
+bentink.subtypes$Bentink.subtypes
 konecny.subtypes <- get.subtypes(GSE14764.eset, method = "Konecny")
+konecny.subtypes$Konecny.subtypes
 helland.subtypes <- get.subtypes(GSE14764.eset, method = "Helland")
-verhaak.subtypes <- get.subtypes(GSE14764.eset, method = "Verhaak")
-consensus.subtypes <- get.subtypes(GSE14764.eset, method = "consensusOV")
+helland.subtypes$Helland.subtypes
 ```
 
-```{r alternative_subtyping, eval=FALSE}
-## Alternatively:
+```{r subtyping2, results="hide"}
+verhaak.subtypes <- get.subtypes(GSE14764.eset, method = "Verhaak")
+```
+
+```{r subtyping3}
+verhaak.subtypes$Verhaak.subtypes
+consensus.subtypes <- get.subtypes(GSE14764.eset, method = "consensusOV")
+consensus.subtypes$consensusOV.subtypes
+```
+
+```{r alternative_subtyping}
+## Alternatively, e.g.
 bentink.subtypes <- get.subtypes(GSE14764.expression.matrix, GSE14764.entrez.ids, method = "Bentink")
-konecny.subtypes <- get.subtypes(GSE14764.expression.matrix, GSE14764.entrez.ids, method = "Konecny")
-helland.subtypes <- get.subtypes(GSE14764.expression.matrix, GSE14764.entrez.ids, method = "Helland")
-verhaak.subtypes <- get.subtypes(GSE14764.expression.matrix, GSE14764.entrez.ids, method = "Verhaak")
-consensus.subtypes <- get.subtypes(GSE14764.expression.matrix, GSE14764.entrez.ids, method = "consensusOV")
 ```
 
 Each subtyping function outputs a list with two values. The first value is a factor of subtype labels. The second is an classifier-specific values. For the Konecny, Helland, Verhaak, and Consensus classifiers, this object is a dataframe with subtype specific scores. For the Bentink classifier, the object is the output of the `genefu` function call. 
 
 Subtype classifiers can alternatively be called using inner functions.
 
-```{r subtyping_ex_2, eval=FALSE}
+```{r subtyping_ex_2}
 bentink.subtypes <- get.bentink.subtypes(GSE14764.expression.matrix, GSE14764.entrez.ids)
 ```
 
@@ -74,27 +80,48 @@ The Konecny, Helland, Verhaak, and Consensus classifiers produce real-valued sub
 
 We can compare the subtype scores between the Verhaak and Helland classifiers:
 
-```{r verhaak_helland, fig.height = 6, fig.width = 6}
-par(mfrow=c(2,2))
-plot(verhaak.subtypes$gsva.out[,"IMR"], helland.subtypes$subtype.scores[,"C2"], xlab="IMR", ylab="C2")
-plot(verhaak.subtypes$gsva.out[,"DIF"], helland.subtypes$subtype.scores[,"C4"], xlab="DIF", ylab="C4")
-plot(verhaak.subtypes$gsva.out[,"PRO"], helland.subtypes$subtype.scores[,"C5"], xlab="PRO", ylab="C5")
-plot(verhaak.subtypes$gsva.out[,"MES"], helland.subtypes$subtype.scores[,"C1"], xlab="MES", ylab="C1")
+```{r verhaak_helland, fig.height = 8, fig.width = 8}
+vest <- verhaak.subtypes$gsva.out
+vest <- vest[,c("IMR", "DIF", "PRO", "MES")]
+hest <- helland.subtypes$subtype.scores
+hest <- hest[, c("C2", "C4", "C5", "C1")]
+dat <- data.frame(
+	as.vector(vest), 
+	rep(colnames(vest), each=nrow(vest)),
+	as.vector(hest), 
+	rep(colnames(hest), each=nrow(hest)))
+colnames(dat) <- c("Verhaak", "vsc", "Helland", "hsc")
+## plot
+library(ggplot2)
+ggplot(dat, aes(Verhaak, Helland)) + geom_point() + facet_wrap(vsc~hsc, nrow = 2, ncol = 2)
 ```
 
-Corresponding Spearman correlation values are `r cor(verhaak.subtypes$gsva.out[,"IMR"], helland.subtypes$subtype.scores[,"C2"], method="spearman")`, `r cor(verhaak.subtypes$gsva.out[,"DIF"], helland.subtypes$subtype.scores[,"C4"])`, `r cor(verhaak.subtypes$gsva.out[,"PRO"], helland.subtypes$subtype.scores[,"C5"])`, `r cor(verhaak.subtypes$gsva.out[,"MES"], helland.subtypes$subtype.scores[,"C1"])`.
-
+Corresponding correlation values are 
+`r round(cor(verhaak.subtypes$gsva.out[,"DIF"], helland.subtypes$subtype.scores[,"C4"]), digits=2)`, 
+`r round(cor(verhaak.subtypes$gsva.out[,"IMR"], helland.subtypes$subtype.scores[,"C2"]), digits=2)`,
+`r round(cor(verhaak.subtypes$gsva.out[,"MES"], helland.subtypes$subtype.scores[,"C1"]), digits=2)`, and 
+`r round(cor(verhaak.subtypes$gsva.out[,"PRO"], helland.subtypes$subtype.scores[,"C5"]), digits=2)`.
 
 Likewise, we can compare the subtype scores between the Konecny and Helland classifier:
 
-```{r konecny_helland, fig.height = 6, fig.width = 6}
-par(mfrow=c(2,2))
-plot(konecny.subtypes$spearman.cc.vals[,"C1_immL"], helland.subtypes$subtype.scores[,"C2"], xlab="C1_immL", ylab="C2")
-plot(konecny.subtypes$spearman.cc.vals[,"C2_diffL"], helland.subtypes$subtype.scores[,"C4"], xlab="C2_diffL", ylab="C4")
-plot(konecny.subtypes$spearman.cc.vals[,"C3_profL"], helland.subtypes$subtype.scores[,"C5"], xlab="C3_profL", ylab="C5")
-plot(konecny.subtypes$spearman.cc.vals[,"C4_mescL"], helland.subtypes$subtype.scores[,"C1"], xlab="C4_mescL", ylab="C1")
+```{r konecny_helland, fig.height = 8, fig.width = 8}
+kost <- konecny.subtypes$spearman.cc.vals
+hest <- helland.subtypes$subtype.scores
+hest <- hest[, c("C2", "C4", "C5", "C1")]
+dat <- data.frame(
+	as.vector(kost), 
+	rep(colnames(kost), each=nrow(kost)),
+	as.vector(hest), 
+	rep(colnames(hest), each=nrow(hest)))
+colnames(dat) <- c("Konecny", "ksc", "Helland", "hsc")
+## plot
+ggplot(dat, aes(Konecny, Helland)) + geom_point() + facet_wrap(ksc~hsc, nrow = 2, ncol = 2)
 ```
 
-Corresponding Spearman correlation values are `r cor(konecny.subtypes$spearman.cc.vals[,"C1_immL"], helland.subtypes$subtype.scores[,"C2"])`, `r cor(konecny.subtypes$spearman.cc.vals[,"C2_diffL"], helland.subtypes$subtype.scores[,"C4"])`, `r cor(konecny.subtypes$spearman.cc.vals[,"C3_profL"], helland.subtypes$subtype.scores[,"C5"])`, `r cor(konecny.subtypes$spearman.cc.vals[,"C4_mescL"], helland.subtypes$subtype.scores[,"C1"])`
+Corresponding correlation values are 
+`r round(cor(konecny.subtypes$spearman.cc.vals[,"C1_immL"], helland.subtypes$subtype.scores[,"C2"]), digits=2)`, 
+`r round(cor(konecny.subtypes$spearman.cc.vals[,"C2_diffL"], helland.subtypes$subtype.scores[,"C4"]), digits=2)`, 
+`r round(cor(konecny.subtypes$spearman.cc.vals[,"C3_profL"], helland.subtypes$subtype.scores[,"C5"]), digits=2)`, 
+and `r round(cor(konecny.subtypes$spearman.cc.vals[,"C4_mescL"], helland.subtypes$subtype.scores[,"C1"]), digits=2)`.
 
 ## References

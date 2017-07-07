@@ -57,7 +57,7 @@ dataset.merging <-
                     feature.merged <-
                         names(feature.merged)[feature.merged == length(esets)]
                     feature.merged <-
-                        ugid[match(feature.merged, base::trimwse(
+                        ugid[match(feature.merged, base::trimws(
                             as.character(ugid[, "EntrezGene.ID"]))),
                             ,
                             drop = FALSE]
