@@ -1,0 +1,6 @@
+.git
+.gitignore
+.travis.yml
+^.*\.Rproj$
+^\.Rproj\.user$
+^data-raw$
