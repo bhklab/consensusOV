@@ -2,8 +2,8 @@ Package: consensusOV
 Type: Package
 Title: Gene expression-based subtype classification for high-grade
     serous ovarian cancer
-Version: 1.5.0
-Date: 2017-05-10
+Version: 1.5.1
+Date: 2019-10-31
 Author: Gregory M Chen, Lavanya Kannan, Ludwig Geistlinger, Victor
     Kofia, Levi Waldron, Benjamin Haibe-Kains
 Maintainer: Benjamin Haibe-Kains <benjamin.haibe.kains@utoronto.ca>

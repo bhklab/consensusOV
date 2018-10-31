@@ -1,0 +1,50 @@
+Package: consensusOV
+Type: Package
+<<<<<<< HEAD
+Title: Gene expression-based subtype classification for high-grade serous ovarian cancer
+Version: 0.99.3
+Date: 2017-05-10
+Author: Gregory M Chen, Lavanya Kannan, Ludwig Geistlinger, Victor Kofia, Levi Waldron, Benjamin Haibe-Kains 
+Maintainer: Benjamin Haibe-Kains <benjamin.haibe.kains@utoronto.ca>
+Description: This package implements four major subtype classifiers for high-grade serous (HGS) 
+	ovarian cancer as described by Helland et al. (PLoS One, 2011), Bentink et al. (PLoS One, 2012), 
+	Verhaak et al. (J Clin Invest, 2013), and Konecny et al. (J Natl Cancer Inst, 2014). 
+	In addition, the package implements a consensus classifier, which consolidates and improves on 
+	the robustness of the proposed subtype classifiers, thereby providing reliable stratification of 
+	patients with HGS ovarian tumors of clearly defined subtype.  
+License: Artistic-2.0
+Imports: Biobase, GSVA, gdata, genefu, limma, matrixStats, randomForest, stats, utils
+=======
+Title: Gene expression-based subtype classification for high-grade
+        serous ovarian cancer
+Version: 1.5.0
+Date: 2017-05-10
+Author: Gregory M Chen, Lavanya Kannan, Ludwig Geistlinger, Victor
+        Kofia, Levi Waldron, Benjamin Haibe-Kains
+Maintainer: Benjamin Haibe-Kains <benjamin.haibe.kains@utoronto.ca>
+Description: This package implements four major subtype classifiers for
+        high-grade serous (HGS) ovarian cancer as described by Helland
+        et al. (PLoS One, 2011), Bentink et al. (PLoS One, 2012),
+        Verhaak et al. (J Clin Invest, 2013), and Konecny et al. (J
+        Natl Cancer Inst, 2014). In addition, the package implements a
+        consensus classifier, which consolidates and improves on the
+        robustness of the proposed subtype classifiers, thereby
+        providing reliable stratification of patients with HGS ovarian
+        tumors of clearly defined subtype.
+License: Artistic-2.0
+Imports: Biobase, GSVA, gdata, genefu, limma, matrixStats,
+        randomForest, stats, utils
+>>>>>>> upstream/master
+Depends: R (>= 3.4)
+URL: http://www.pmgenomics.ca/bhklab/software/consensusOV
+Suggests: knitr, ggplot2
+VignetteBuilder: knitr
+RoxygenNote: 6.0.1
+LazyData: true
+<<<<<<< HEAD
+biocViews: Classification, Clustering, DifferentialExpression, GeneExpression, Microarray, Transcriptomics
+=======
+biocViews: Classification, Clustering, DifferentialExpression,
+        GeneExpression, Microarray, Transcriptomics
+>>>>>>> upstream/master
+BugReports: https://github.com/bhklab/consensusOV/issues
