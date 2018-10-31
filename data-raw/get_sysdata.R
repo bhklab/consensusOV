@@ -1,6 +1,16 @@
 library(Biobase)
+library(MetaGxOvarian)
 library(gdata)
 library(hgu133plus2.db)
+library(GSVA)
+source("../R/dataset.merging.R")
+source("../R/get.helland.subtypes.R")
+source("../R/get.konecny.subtypes.R")
+source("../R/get.verhaak.subtypes.R")
+source("../R/get.bentink.subtypes.R")
+source("../R/get.subtypes.R")
+
+#### Get gene sets, coefficients from supplemental files ###
 
 ## centroids.konecny
 
@@ -87,9 +97,75 @@ verhaak.genesets.entrez.ids <- lapply(
 
 ## esets.rescaled.classified.filteredgenes
 ## consensus.training.dataset.full
-load("~/Desktop/mar7_ovcsubtypes/OvcSubtypes/reports/esets.not.rescaled.classified.RData")
 
 verhaak.entrez.ids <- unlist(verhaak.genesets.entrez.ids)
+
+
+##### Get classified datasets for consensus subtype classifier #####
+
+remove.retracted <- FALSE
+remove.subsets <- TRUE
+probe.gene.mapping <- TRUE
+keep.common.only <- FALSE
+#only keep studies with at least this many samples
+min.sample.size <- 40   
+quantile.cutoff <- 0
+strict.checking <- FALSE
+remove.duplicates <- TRUE
+
+rule.1 <- c("sample_type","^tumor$")
+rule.2 <- c("histological_type","^ser$")
+rule.3 <- c("summarystage","^late$")
+rule.4 <- c("summarygrade","^high$")
+
+rescale <- FALSE
+# only keep esets with at least 10000 genes
+min.number.of.genes <- 10000
+
+source(system.file("extdata", "createEsetList.R", package="MetaGxOvarian"))
+
+esets.not.rescaled <- esets
+# remove any genes with NA values
+esets.not.rescaled <- lapply(esets.not.rescaled, function(eset) eset[apply(exprs(eset), 1, function(x) all(!is.na(x))), ])
+
+esets.not.rescaled <- esets.not.rescaled[sapply(esets.not.rescaled, function(eset) nrow(eset) > 10000)]
+
+# Classify data
+set.seed(450)
+
+# Subtype classification
+if(file.exists("esets.not.rescaled.classified.RData")) {
+  load("esets.not.rescaled.classified.RData")
+} else {
+  esets.not.rescaled.classified <- esets.not.rescaled
+  # Remove TCGA.RNASeqV2
+  esets.not.rescaled.classified <- esets.not.rescaled.classified[names(esets.not.rescaled.classified) != "TCGA.RNASeqV2"]
+  
+  esets.not.rescaled.classified <- lapply(esets.not.rescaled.classified, function(eset) {
+    konecny.out <- get.subtypes(eset, method = "Konecny")
+    annotated.eset <- eset
+    annotated.eset$Konecny.subtypes <- konecny.out$Konecny.subtypes
+    annotated.eset$Konecny.margins <- apply(konecny.out$spearman.cc.vals, 1, function(x) max(x) - sort(x)[3])
+    return(annotated.eset)
+  })
+  esets.not.rescaled.classified <- lapply(esets.not.rescaled.classified, function(eset) {
+    verhaak.out <- get.subtypes(eset, method = "Verhaak")
+    annotated.eset <- eset
+    annotated.eset$Verhaak.subtypes <- verhaak.out$Verhaak.subtypes
+    annotated.eset$Verhaak.margins <- apply(verhaak.out$gsva.out, 1, function(x) max(x) - sort(x)[3])
+    return(annotated.eset)
+  })
+  esets.not.rescaled.classified <- lapply(esets.not.rescaled.classified, function(eset) {
+    helland.out <- get.subtypes(eset, method = "Helland")
+    annotated.eset <- eset
+    annotated.eset$Helland.subtypes <- helland.out$Helland.subtypes
+    annotated.eset$Helland.margins <- apply(helland.out$subtype.scores, 1, function(x) max(x) - sort(x)[3])
+    return(annotated.eset)
+  })
+  #esets.not.rescaled.classified <- lapply(esets.not.rescaled.classified, function(eset) getBentinkSubtypes(eset)[[1]])
+  save(esets.not.rescaled.classified, file = "esets.not.rescaled.classified.RData")
+}
+
 
 esets.rescaled.classified <- lapply(esets.not.rescaled.classified,
                                     function(eset) {
@@ -99,7 +175,7 @@ esets.rescaled.classified <- lapply(esets.not.rescaled.classified,
                             )
 
 esets.rescaled.classified.filteredgenes <- lapply (
-    esets.not.rescaled.classified,
+    esets.rescaled.classified,
     function(eset) {
         eset <- eset[
             as.character(fData(eset)$EntrezGene.ID) %in% as.character(verhaak.entrez.ids),
@@ -123,7 +199,6 @@ save(
   file="sysdata.rda", compress='xz')
 
 ## GSE14764.eset
-load("~/Desktop/mar7_ovcsubtypes/OvcSubtypes/reports/esets.not.rescaled.RData")
 GSE14764.eset <- esets.not.rescaled$GSE14764
 
 # Only keep genes relevant for examples
