@@ -4,12 +4,17 @@
 #' genes, columns as samples.
 #' @param entrez.ids A vector of Entrez Gene IDs, corresponding to the rows of
 #' \code{expression.matrix}
-#' @param .dataset.names.to.keep Names of MetaGxOvarian datasets to use for
-#' training
+#' @param concordant.tumors.only Logical. Should the classifier trained only on 
+#' tumors that are concordantly classified by Helland, Konecny, and Verhaak?
+#' Defaults to TRUE.
 #' @param remove.using.cutoff Specify whether to classify NA for samples that do
 #'  not meet a margin cutoff
 #' @param percentage.dataset.removed If remove.using.cutoff is TRUE, then
 #' classify this percentage of samples to NA based on margin values
+#' @param .training.dataset ExpressionSet containing the training data. 
+#' Defaults to the pooled dataset across selected MetaGxOvarian datasets.
+#' @param .dataset.names.to.keep Names of MetaGxOvarian datasets to use for
+#' training
 #' @return A list with first value \code{consensusOV.subtypes} containing a
 #' factor of subtype names; and second value \code{rf.probs} containing a matrix
 #'  of subtype probabilities
@@ -23,45 +28,49 @@
 #' @importFrom stats cor ecdf predict quantile sd
 #' @importFrom utils combn
 #' @export
-get.consensus.subtypes <-
-function(expression.matrix,
-         entrez.ids,
-         .dataset.names.to.keep=names(esets.rescaled.classified.filteredgenes),
-         remove.using.cutoff=FALSE,
-         percentage.dataset.removed = 0.75) {
+get.consensus.subtypes <- function(expression.matrix, entrez.ids,
+    concordant.tumors.only=TRUE, remove.using.cutoff=FALSE,
+    percentage.dataset.removed=0.75,
+    .training.dataset=consensus.training.dataset.full,
+    .dataset.names.to.keep=names(esets.rescaled.classified.filteredgenes)) 
+{
 
   ### Load training data
-  print("Loading training data")
-  ## This file is produced from classificationAcrossDatasets.Rnw
+  message("Loading training data")
   expression.matrix <- t(scale(t(expression.matrix)))
   entrez.ids <- as.character(entrez.ids)
 
+  # use full training dataset or only specified datasets?
   dataset.names.to.keep <- .dataset.names.to.keep
-
-  if(length(dataset.names.to.keep) == length(esets.rescaled.classified.filteredgenes) &&
-     all(dataset.names.to.keep == names(esets.rescaled.classified.filteredgenes))) {
+  cond1 <- length(dataset.names.to.keep) == length(esets.rescaled.classified.filteredgenes)
+  cond2 <- all(dataset.names.to.keep == names(esets.rescaled.classified.filteredgenes))
+  if(cond1 && cond2) 
+  {
     # Using all datasets
-    # use consensustraining.datasetfull
-    training.dataset <- consensus.training.dataset.full
+    # use consensustraining.dataset.full
+    # This file is produced from classificationAcrossDatasets.Rnw
+    training.dataset <- .training.dataset
   } else{
     esets.training <- esets.rescaled.classified.filteredgenes[dataset.names.to.keep]
-    esets.merged <- dataset.merging(esets.training, method = "intersect",
+    training.dataset <- dataset.merging(esets.training, method = "intersect",
                                     standardization = "none")
+  }
+
+  # restrict training to concordant tumors?   
+  if(concordant.tumors.only)
+  {    
     subtype.correspondances <- data.frame(
         Konecny=c("C1_immL", "C2_diffL", "C3_profL", "C4_mescL"),
         Verhaak=c("IMR", "DIF", "PRO", "MES"),
         Helland=c("C2", "C4", "C5", "C1")
     )
     cases.to.keep <-
-      match(esets.merged$Konecny.subtypes, subtype.correspondances$Konecny) ==
-      match(esets.merged$Verhaak.subtypes, subtype.correspondances$Verhaak) &
-      match(esets.merged$Verhaak.subtypes, subtype.correspondances$Verhaak) ==
-      match(esets.merged$Helland.subtypes, subtype.correspondances$Helland)
-    training.dataset <- esets.merged[,cases.to.keep]
-  }
-
-  ### Once we are happy with the normalization / removal of discordant cases,
-  ### this eset should be a package data file.
+      match(training.dataset$Konecny.subtypes, subtype.correspondances$Konecny) ==
+      match(training.dataset$Verhaak.subtypes, subtype.correspondances$Verhaak) &
+      match(training.dataset$Verhaak.subtypes, subtype.correspondances$Verhaak) ==
+      match(training.dataset$Helland.subtypes, subtype.correspondances$Helland)
+    training.dataset <- training.dataset[,cases.to.keep]
+  }  
 
   train.labels <- training.dataset$Verhaak.subtypes
   levels(train.labels) <- paste0(levels(train.labels), "_consensus")
@@ -70,7 +79,7 @@ function(expression.matrix,
       intersect(fData(training.dataset)$EntrezGene.ID, entrez.ids)
   )
 
-  print("Training Random Forest...")
+  message("Training Random Forest...")
 
   eids <- fData(training.dataset)$EntrezGene.ID
   ind <- match(intersecting.entrez.ids, eids)

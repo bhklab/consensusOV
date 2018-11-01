@@ -5,24 +5,38 @@
 \title{Get consensusOV ovarian cancer subtypes}
 \usage{
 get.consensus.subtypes(expression.matrix, entrez.ids,
-  .dataset.names.to.keep = names(esets.rescaled.classified.filteredgenes),
-  remove.using.cutoff = FALSE, percentage.dataset.removed = 0.75)
+  concordant.tumors.only = TRUE, remove.using.cutoff = FALSE,
+  percentage.dataset.removed = 0.75,
+  .training.dataset = consensus.training.dataset.full,
+  .dataset.names.to.keep = names(esets.rescaled.classified.filteredgenes))
 }
 \arguments{
-\item{expression.matrix}{A matrix of gene expression values with rows as genes, columns as samples.}
+\item{expression.matrix}{A matrix of gene expression values with rows as
+genes, columns as samples.}
 
-\item{entrez.ids}{A vector of Entrez Gene IDs, corresponding to the rows of \code{expression.matrix}}
+\item{entrez.ids}{A vector of Entrez Gene IDs, corresponding to the rows of
+\code{expression.matrix}}
 
-\item{.dataset.names.to.keep}{Names of MetaGxOvarian datasets to use for training}
+\item{concordant.tumors.only}{Logical. Should the classifier trained only on 
+tumors that are concordantly classified by Helland, Konecny, and Verhaak?
+Defaults to TRUE.}
 
-\item{remove.using.cutoff}{Specify whether to classify NA for samples that do not meet a margin cutoff}
+\item{remove.using.cutoff}{Specify whether to classify NA for samples that do
+not meet a margin cutoff}
 
-\item{percentage.dataset.removed}{If remove.using.cutoff is TRUE, then classify this percentage of
-samples to NA based on margin values}
+\item{percentage.dataset.removed}{If remove.using.cutoff is TRUE, then
+classify this percentage of samples to NA based on margin values}
+
+\item{.training.dataset}{ExpressionSet containing the training data. 
+Defaults to the pooled dataset across selected MetaGxOvarian datasets.}
+
+\item{.dataset.names.to.keep}{Names of MetaGxOvarian datasets to use for
+training}
 }
 \value{
-A list with first value \code{consensusOV.subtypes} containing a factor of subtype names;
-and second value \code{rf.probs} containing a matrix of subtype probabilities
+A list with first value \code{consensusOV.subtypes} containing a
+factor of subtype names; and second value \code{rf.probs} containing a matrix
+ of subtype probabilities
 }
 \description{
 Get consensusOV ovarian cancer subtypes
