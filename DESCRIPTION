@@ -18,7 +18,7 @@ Description: This package implements four major subtype classifiers for
     tumors of clearly defined subtype.
 License: Artistic-2.0
 Imports: Biobase, GSVA, gdata, genefu, limma, matrixStats,
-        randomForest, stats, utils
+    randomForest, stats, utils
 Depends: R (>= 3.4)
 URL: http://www.pmgenomics.ca/bhklab/software/consensusOV
 Suggests: knitr, ggplot2
@@ -26,5 +26,5 @@ VignetteBuilder: knitr
 RoxygenNote: 6.0.1
 LazyData: true
 biocViews: Classification, Clustering, DifferentialExpression,
-        GeneExpression, Microarray, Transcriptomics
+    GeneExpression, Microarray, Transcriptomics
 BugReports: https://github.com/bhklab/consensusOV/issues
