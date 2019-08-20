@@ -2,6 +2,7 @@
 % Please edit documentation in R/get.consensus.subtypes.R
 \name{get.consensus.subtypes}
 \alias{get.consensus.subtypes}
+\alias{margin}
 \title{Get consensusOV ovarian cancer subtypes}
 \usage{
 get.consensus.subtypes(expression.matrix, entrez.ids,
@@ -9,6 +10,8 @@ get.consensus.subtypes(expression.matrix, entrez.ids,
   percentage.dataset.removed = 0.75,
   .training.dataset = consensus.training.dataset.full,
   .dataset.names.to.keep = names(esets.rescaled.classified.filteredgenes))
+
+margin(rf.probs)
 }
 \arguments{
 \item{expression.matrix}{A matrix of gene expression values with rows as
@@ -32,11 +35,18 @@ Defaults to the pooled dataset across selected MetaGxOvarian datasets.}
 
 \item{.dataset.names.to.keep}{Names of MetaGxOvarian datasets to use for
 training}
+
+\item{rf.probs}{random forest probabilities for each subtype as returned
+by \code{\link{get.consensus.subtypes}}}
 }
 \value{
-A list with first value \code{consensusOV.subtypes} containing a
-factor of subtype names; and second value \code{rf.probs} containing a matrix
- of subtype probabilities
+\code{get.consensus.subtypes} returns a list with 
+first value \code{consensusOV.subtypes} containing a
+factor of subtype labels; and second value \code{rf.probs} containing a matrix
+of subtype probabilities.
+
+\code{margin} returns a numeric vector containing the classification margin 
+scores, i.e. the difference between the top two subtype scores for each tumor.
 }
 \description{
 Get consensusOV ovarian cancer subtypes
@@ -46,5 +56,7 @@ library(Biobase)
 data(GSE14764.eset)
 expression.matrix <- exprs(GSE14764.eset)
 entrez.ids <- as.character(fData(GSE14764.eset)$EntrezGene.ID)
-get.consensus.subtypes(expression.matrix, entrez.ids)
+sts <- get.consensus.subtypes(expression.matrix, entrez.ids)
+margins <- margin(sts$rf.probs)
+
 }

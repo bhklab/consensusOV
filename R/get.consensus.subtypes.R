@@ -15,18 +15,28 @@
 #' Defaults to the pooled dataset across selected MetaGxOvarian datasets.
 #' @param .dataset.names.to.keep Names of MetaGxOvarian datasets to use for
 #' training
-#' @return A list with first value \code{consensusOV.subtypes} containing a
-#' factor of subtype names; and second value \code{rf.probs} containing a matrix
-#'  of subtype probabilities
+#' @param rf.probs random forest probabilities for each subtype as returned
+#' by \code{\link{get.consensus.subtypes}}
+#' @return \code{get.consensus.subtypes} returns a list with 
+#' first value \code{consensusOV.subtypes} containing a
+#' factor of subtype labels; and second value \code{rf.probs} containing a matrix
+#' of subtype probabilities.
+#'
+#' \code{margin} returns a numeric vector containing the classification margin 
+#' scores, i.e. the difference between the top two subtype scores for each tumor.
+#'
 #' @examples
 #' library(Biobase)
 #' data(GSE14764.eset)
 #' expression.matrix <- exprs(GSE14764.eset)
 #' entrez.ids <- as.character(fData(GSE14764.eset)$EntrezGene.ID)
-#' get.consensus.subtypes(expression.matrix, entrez.ids)
+#' sts <- get.consensus.subtypes(expression.matrix, entrez.ids)
+#' margins <- margin(sts$rf.probs)
+#'
 #' @importFrom randomForest randomForest
 #' @importFrom stats cor ecdf predict quantile sd
 #' @importFrom utils combn
+#'
 #' @export
 get.consensus.subtypes <- function(expression.matrix, entrez.ids,
     concordant.tumors.only=TRUE, remove.using.cutoff=FALSE,
@@ -120,4 +130,13 @@ get.consensus.subtypes <- function(expression.matrix, entrez.ids,
                                                     "MES_consensus"))
 
   return(list(consensusOV.subtypes=my.predictions, rf.probs=my.predictions.probs))
+}
+
+#' @rdname get.consensus.subtypes
+#' @export
+margin <- function(rf.probs)
+{
+    subtr <- apply(rf.probs, 1, function(row) sort(row)[3])
+    pred.margins <- Biobase::rowMax(rf.probs) - subtr
+    return(pred.margins)
 }

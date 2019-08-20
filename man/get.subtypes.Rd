@@ -5,22 +5,27 @@
 \title{Get ovarian cancer subtypes}
 \usage{
 get.subtypes(expression.dataset, entrez.ids = NULL,
-  method = c("consensusOV", "Helland", "Verhaak", "Konecny", "Bentink"), ...)
+  method = c("consensusOV", "Helland", "Verhaak", "Konecny", "Bentink"),
+  ...)
 }
 \arguments{
-\item{expression.dataset}{Either a matrix of gene expression values with rows as genes, columns as samples;
-or a BioBase::ExpressionSet object from MetaGxOvarian. If \code{expression.dataset} is a matrix, then
-\code{entrez.ids} must have length equal to the number of rows of \code{expression.dataset}.}
+\item{expression.dataset}{Either a matrix of gene expression values with rows
+ as genes, columns as samples;
+or a BioBase::ExpressionSet object from MetaGxOvarian.
+If \code{expression.dataset} is a matrix, then \code{entrez.ids} must have
+length equal to the number of rows of \code{expression.dataset}.}
 
-\item{entrez.ids}{A vector of Entrez Gene IDs, corresponding to the rows of \code{expression.dataset}}
+\item{entrez.ids}{A vector of Entrez Gene IDs, corresponding to the rows of
+\code{expression.dataset}}
 
 \item{method}{The subtyping method to use}
 
 \item{...}{Optional parameters to be passed to the low level function}
 }
 \value{
-A list with first value \code{Konecny.subtypes} containing a factor of subtype names;
-and second value \code{spearman.cc.vals} containing the Spearman correlation values per subtype
+A list with first value \code{Konecny.subtypes} containing a factor
+of subtype names; and second value \code{spearman.cc.vals} containing the
+Spearman correlation values per subtype
 }
 \description{
 Get ovarian cancer subtypes

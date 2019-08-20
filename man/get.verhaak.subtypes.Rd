@@ -7,13 +7,16 @@
 get.verhaak.subtypes(expression.matrix, entrez.ids)
 }
 \arguments{
-\item{expression.matrix}{A matrix of gene expression values with rows as genes, columns as samples.}
+\item{expression.matrix}{A matrix of gene expression values with rows as
+genes, columns as samples.}
 
-\item{entrez.ids}{A vector of Entrez Gene IDs, corresponding to the rows of \code{expression.matrix}}
+\item{entrez.ids}{A vector of Entrez Gene IDs, corresponding to the rows of
+\code{expression.matrix}}
 }
 \value{
-A list with first value \code{Verhaak.subtypes} containing a factor of subtype names;
-and second value \code{gsva} containing the GSVA subtype scores
+A list with first value \code{Verhaak.subtypes} containing a factor
+of subtype names; and second value \code{gsva} containing the GSVA subtype
+scores
 }
 \description{
 Get ovarian cancer subtypes as defined by Verhaak et al., 2013
@@ -26,6 +29,7 @@ entrez.ids <- as.character(fData(GSE14764.eset)$EntrezGene.ID)
 get.konecny.subtypes(expression.matrix, entrez.ids)
 }
 \references{
-Verhaak et al. \emph{Prognostically relevant gene signatures of high-grade serous ovarian carcinoma.}
+Verhaak et al. \emph{Prognostically relevant gene signatures of
+high-grade serous ovarian carcinoma.}
 The Journal of Clinical Investigation (2013)
 }

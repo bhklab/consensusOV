@@ -7,13 +7,16 @@
 get.helland.subtypes(expression.matrix, entrez.ids)
 }
 \arguments{
-\item{expression.matrix}{A matrix of gene expression values with rows as genes, columns as samples.}
+\item{expression.matrix}{A matrix of gene expression values with rows as
+genes, columns as samples.}
 
-\item{entrez.ids}{A vector of Entrez Gene IDs, corresponding to the rows of \code{expression.matrix}}
+\item{entrez.ids}{A vector of Entrez Gene IDs, corresponding to the rows of
+\code{expression.matrix}}
 }
 \value{
-A list with first value \code{Helland.subtypes} containing a factor of subtype names;
-and second value \code{subtype.scores} containing a matrix of subtype scores
+A list with first value \code{Helland.subtypes} containing a factor
+of subtype names; and second value \code{subtype.scores} containing a matrix
+of subtype scores
 }
 \description{
 Get ovarian cancer subtypes as defined by Helland et al., 2011
@@ -26,6 +29,7 @@ entrez.ids <- as.character(fData(GSE14764.eset)$EntrezGene.ID)
 get.helland.subtypes(expression.matrix, entrez.ids)
 }
 \references{
-Helland et al. \emph{Deregulation of MYCN, LIN28B and LET7 in a molecular subtype of 
-aggressive high-grade serous ovarian cancers.} PloS one (2011).
+Helland et al. \emph{Deregulation of MYCN, LIN28B and LET7 in a
+molecular subtype of aggressive high-grade serous ovarian cancers.}
+PloS one (2011).
 }

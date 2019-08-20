@@ -7,13 +7,16 @@
 get.bentink.subtypes(expression.matrix, entrez.ids)
 }
 \arguments{
-\item{expression.matrix}{A matrix of gene expression values with rows as genes, columns as samples.}
+\item{expression.matrix}{A matrix of gene expression values with rows as
+genes, columns as samples.}
 
-\item{entrez.ids}{A vector of Entrez Gene IDs, corresponding to the rows of \code{expression.matrix}}
+\item{entrez.ids}{A vector of Entrez Gene IDs, corresponding to the rows of
+\code{expression.matrix}}
 }
 \value{
-A list with first value \code{Bentink.subtypes} containing a factor of subtype names;
-and second value \code{angio} containing the ouput of \code{genefu::ovcAngiogenic}
+A list with first value \code{Bentink.subtypes} containing a factor
+of subtype names; and second value \code{angio} containing the ouput of
+\code{genefu::ovcAngiogenic}
 }
 \description{
 Get ovarian cancer subtypes as defined by Bentink et al., 2012
@@ -27,6 +30,7 @@ entrez.ids <- as.character(fData(GSE14764.eset)$EntrezGene.ID)
 get.bentink.subtypes(expression.matrix, entrez.ids)
 }
 \references{
-Bentink et al. \emph{Angiogenic mRNA and microRNA gene expression signature predicts
+Bentink et al. \emph{Angiogenic mRNA and microRNA gene expression
+ signature predicts
 a novel subtype of serous ovarian cancer.} PloS one (2012).
 }

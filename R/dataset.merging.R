@@ -6,8 +6,8 @@
 #'  or "none"
 #' @param nthread number of threads (1 by default)
 #' @return The merging eset
-#' @importFrom gdata combine
 #' @importFrom limma normalizeBetweenArrays
+#' @import Biobase
 dataset.merging <-
     function (esets,
               method = c("union", "intersect"),
@@ -93,7 +93,7 @@ dataset.merging <-
         clinicinfo.merged <- lapply(esets, function (x , y) {
             ee <- Biobase::pData(x)[, y, drop = FALSE]
         }, y = ucid)
-        clinicinfo.merged <- do.call(combine, clinicinfo.merged)
+        clinicinfo.merged <- do.call(gdata::combine, clinicinfo.merged)
         # if a data.source column already exists, remove it
         clinicinfo.merged$data.source <- NULL
         colnames(clinicinfo.merged)[

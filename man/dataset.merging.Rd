@@ -13,7 +13,8 @@ dataset.merging(esets, method = c("union", "intersect"),
 
 \item{method}{either "unique" or "intersect" is use to for selecting geneid}
 
-\item{standardization}{choose between "quantile", "robust.scaling", "scaling" or "none"}
+\item{standardization}{choose between "quantile", "robust.scaling", "scaling"
+or "none"}
 
 \item{nthread}{number of threads (1 by default)}
 }
