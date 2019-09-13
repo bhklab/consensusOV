@@ -24,10 +24,10 @@ function(expression.dataset, entrez.ids=NULL,
          method=c("consensusOV", "Helland", "Verhaak", "Konecny", "Bentink"),
          ...) {
 	method <- match.arg(method)
-	if(is.null(entrez.ids) && class(expression.dataset) != "ExpressionSet") {
+	if(is.null(entrez.ids) && is(expression.dataset, "ExpressionSet")) {
 		stop("If entrez.ids are not provided, expression.dataset must be of class 'ExpressionSet' from MetaGxOvarian")
 	}
-	if(!is.null(entrez.ids) && class(expression.dataset) != "matrix") {
+	if(!is.null(entrez.ids) && is(expression.dataset, "matrix")) {
 		stop("If entrez.ids are provided, expression.dataset must be of class 'matrix'")
 	}
 	if(!is.null(entrez.ids) && length(entrez.ids) != nrow(expression.dataset)) {
