@@ -19,7 +19,7 @@ Description: This package implements four major subtype classifiers for
 License: Artistic-2.0
 Depends: R (>= 3.6)
 Imports: Biobase, GSVA, gdata, genefu, limma, matrixStats,
-    randomForest, stats, utils
+    randomForest, stats, utils, methods
 URL: http://www.pmgenomics.ca/bhklab/software/consensusOV
 Suggests: knitr, ggplot2
 VignetteBuilder: knitr
