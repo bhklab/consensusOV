@@ -36,4 +36,5 @@ data(GSE14764.eset)
 expression.matrix <- exprs(GSE14764.eset)
 entrez.ids <- as.character(fData(GSE14764.eset)$EntrezGene.ID)
 get.subtypes(expression.matrix, entrez.ids, method="Konecny")
+
 }

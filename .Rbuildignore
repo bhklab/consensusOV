@@ -1,6 +1,8 @@
 .git
 .gitignore
+.git.*
 .travis.yml
 ^.*\.Rproj$
 ^\.Rproj\.user$
 ^data-raw$
+^appveyor.yml$

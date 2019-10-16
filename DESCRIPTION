@@ -2,8 +2,8 @@ Package: consensusOV
 Type: Package
 Title: Gene expression-based subtype classification for high-grade
     serous ovarian cancer
-Version: 1.7.2
-Date: 2019-08-19
+Version: 1.7.2  
+Date: 2019-10-16
 Author: Gregory M Chen, Lavanya Kannan, Ludwig Geistlinger, Victor
     Kofia, Levi Waldron, Benjamin Haibe-Kains
 Maintainer: Benjamin Haibe-Kains <benjamin.haibe.kains@utoronto.ca>
@@ -17,9 +17,9 @@ Description: This package implements four major subtype classifiers for
     providing reliable stratification of patients with HGS ovarian
     tumors of clearly defined subtype.
 License: Artistic-2.0
-Depends: R (>= 3.4)
+Depends: R (>= 3.6)
 Imports: Biobase, GSVA, gdata, genefu, limma, matrixStats,
-    randomForest, stats, utils
+    randomForest, stats, utils, methods
 URL: http://www.pmgenomics.ca/bhklab/software/consensusOV
 Suggests: knitr, ggplot2
 VignetteBuilder: knitr
