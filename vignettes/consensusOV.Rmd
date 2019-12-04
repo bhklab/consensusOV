@@ -1,36 +1,39 @@
 ---
 title: "Molecular subtyping for ovarian cancer"
 author: "Gregory M Chen"
-date: "`r Sys.Date()`"
+package: consensusOV
 output:
-  html_document: default
-  pdf_document: default
-bibliography: bibliography.bib
+    BiocStyle::html_document:
 vignette: >
-  %\VignetteEngine{knitr::knitr}
+  %\VignetteEngine{knitr::rmarkdown}
   %\VignetteIndexEntry{Molecular subtyping for ovarian cancer}
-  %\usepackage[UTF-8]{inputenc}
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE, cache=TRUE)
 ```
 
-## Introduction
+# Introduction
 
-`consensusOV` is a package for molecular subtyping for ovarian cancer. It is intended for whole-transcriptome gene expression datasets from patients with high-grade serous ovarian carcinoma. This package includes implementations of four previously published subtype classifiers [@konecny2014prognostic; @verhaak2013prognostically; @bentink2012angiogenic; @helland2011deregulation] and a consensus random forest classifier.
+`r Biocpkg("consensusOV")` is a package for molecular subtyping for ovarian cancer. It is intended for whole-transcriptome gene expression datasets from patients with high-grade serous ovarian carcinoma. This package includes implementations of four previously published subtype classifiers 
+([Helland et al., 2011](https://doi.org/10.1371/journal.pone.0018064);
+[Bentink et al., 2012](https://doi.org/10.1371/journal.pone.0030269);
+[Verhaak et al., 2013](https://doi.org/10.1172/JCI65833);
+[Konecny et al., 2014](https://doi.org/10.1093/jnci/dju249))
+and a consensus random forest classifier ([Chen et al., 2018](https://doi.org/10.1158/1078-0432.CCR-18-0784)).
 
 The `get.subtypes()` function is a wrapper for the other package subtyping functions  `get.consensus.subtypes()`, `get.konecny.subtypes()`, `get.verhaak.subtypes()`,
-`get.bentink.subtypes()`, `get.helland.subtypes()`. It can take as input either a matrix of gene expression values and a vector of Entrez IDs; or a BioBase::ExpressionSet following the format of MetaGxOvarian [@gendoo2016metagxdata]. If `expression.dataset` is a matrix, it should be formatted with genes as rows and patients as columns; and `entrez.ids` should be a vector with length the same as `nrow(expression.dataset)`. The `method` argument specifies which of the five subtype classifiers to use.
+`get.bentink.subtypes()`, `get.helland.subtypes()`. It can take as input either a matrix of gene expression values and a vector of Entrez IDs; or an `ExpressionSet` from the `r Biocpkg("Biobase")` package. If `expression.dataset` is a matrix, it should be formatted with genes as rows and patients as columns; and `entrez.ids` should be a vector with length the same as `nrow(expression.dataset)`. The `method` argument specifies which of the five subtype classifiers to use.
 
-## Load Data
+# Load Data
 ```{r load_pkgs, message=FALSE}
 library(consensusOV)
 library(Biobase)
 library(genefu)
 ```
 
-The package contains a subset of the ovarian cancer microarray dataset `GSE14764` as example data.
+The package contains a subset of the ovarian cancer microarray dataset
+[GSE14764](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE14764) as example data.
 ```{r load_data, message=FALSE}
 data(GSE14764.eset)
 dim(GSE14764.eset)
@@ -40,7 +43,7 @@ GSE14764.entrez.ids <- fData(GSE14764.eset)$EntrezGene.ID
 head(GSE14764.entrez.ids)
 ```
 
-## Subtyping
+# Subtyping
 
 ```{r subtyping}
 bentink.subtypes <- get.subtypes(GSE14764.eset, method = "Bentink")
@@ -74,7 +77,7 @@ Subtype classifiers can alternatively be called using inner functions.
 bentink.subtypes <- get.bentink.subtypes(GSE14764.expression.matrix, GSE14764.entrez.ids)
 ```
 
-## Subtype Scores
+# Subtype Scores
 
 The Konecny, Helland, Verhaak, and Consensus classifiers produce real-valued subtype scores. We can use these in various ways - for example, here, we compute correlations between correspinding subtype scores.
 
@@ -124,4 +127,3 @@ Corresponding correlation values are
 `r round(cor(konecny.subtypes$spearman.cc.vals[,"C3_profL"], helland.subtypes$subtype.scores[,"C5"]), digits=2)`, 
 and `r round(cor(konecny.subtypes$spearman.cc.vals[,"C4_mescL"], helland.subtypes$subtype.scores[,"C1"]), digits=2)`.
 
-## References
