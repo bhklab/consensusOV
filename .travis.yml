@@ -45,7 +45,7 @@ matrix:
       - brew update
       - brew cask reinstall xquartz 
       - brew install tcl-tk
-      - brew link --overwrite --force tcl-tk; brew unlink tcl-
+      - brew link --overwrite --force tcl-tk; brew unlink tcl-tk
       - brew install qpdf
       - brew install lib2xml
     ## VIRTUAL GUI
