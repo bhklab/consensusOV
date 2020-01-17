@@ -5,11 +5,15 @@
 \alias{margin}
 \title{Get consensusOV ovarian cancer subtypes}
 \usage{
-get.consensus.subtypes(expression.matrix, entrez.ids,
-  concordant.tumors.only = TRUE, remove.using.cutoff = FALSE,
+get.consensus.subtypes(
+  expression.matrix,
+  entrez.ids,
+  concordant.tumors.only = TRUE,
+  remove.using.cutoff = FALSE,
   percentage.dataset.removed = 0.75,
   .training.dataset = consensus.training.dataset.full,
-  .dataset.names.to.keep = names(esets.rescaled.classified.filteredgenes))
+  .dataset.names.to.keep = names(esets.rescaled.classified.filteredgenes)
+)
 
 margin(rf.probs)
 }

@@ -24,7 +24,7 @@ URL: http://www.pmgenomics.ca/bhklab/software/consensusOV
 Suggests: BiocStyle, ggplot2, knitr, rmarkdown
 VignetteBuilder: knitr
 Encoding: UTF-8
-RoxygenNote: 6.1.1
+RoxygenNote: 7.0.2
 LazyData: true
 biocViews: Classification, Clustering, DifferentialExpression,
     GeneExpression, Microarray, Transcriptomics

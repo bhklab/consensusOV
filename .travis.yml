@@ -1,11 +1,68 @@
+###########
+# Travis CI configuration file
+# - Enables automated testing on Travis CI web servers
+# - Tests activate on push to GitHub
+###########
+
+## R CONFIGURATION 
 language: r
-r: bioc-devel
-sudo: required
-dist: precise
+
+## R PACKAGE SETTINGS
+r_packages:
+ - covr
 cache: packages
-apt_packages:
-- qpdf
-- libxml2-dev
+
+## PARALLEL OS TEST SETTINGS
+# - This enables parallel testing of osx and linux on push to GitHub
+matrix:
+  include:
+  ## LINUX SETTINGS
+  - r: bioc-devel
+    os: linux
+    dist: xenial
+    ## APT PACKAGE SETTINGS
+    addons:
+      apt:
+        update: true
+        packages:
+          - qpdf
+          - libxml2-dev
+          - x11proto-xf86vidmode-dev
+          - tcl8.5-dev
+          - tk8.5-dev
+          - xvfb
+    ## TESTING COMMANDS
+    script:
+      - R CMD build . --resave-data --compact-vignettes=gs+qpdf
+      - travis_wait 30 xvfb-run R CMD check *.tar.gz # `xvfb-run` executes the command inside the xvfb virtual GUI to catch any renders
+  ## OSX SETTINGS
+  - r: release
+    os: osx
+    osx_image: xcode11
+    ## OSX HOMEBREW PACKAGES
+    # - Dependencies for virtual GUI
+    before_install:
+      - brew update
+      - brew cask reinstall xquartz 
+      - brew install tcl-tk
+      - brew link --overwrite --force tcl-tk; brew unlink tcl-
+      - brew install qpdf
+      - brew install lib2xml
+    ## VIRTUAL GUI
+    # - Launches virtual GUI to catch renders on the headless test server
+    before_script:
+      - "export DISPLAY=:99.0"
+      - if [ "${TRAVIS_OS_NAME}" = "osx" ]; then ( sudo Xvfb :99 -ac -screen 0 1024x768x8; echo ok ) & fi
+    ## TESTING COMMANDS
+    script:
+      - R CMD build . --resave-data --no-build-vignettes # V
+      - travis_wait 30 R CMD check *.tar.gz --no-build-vignettes # `travis_wait 30` increases the maximum time without printing to log from 10 to 30 minutes
+
+# POST TEST COMMANDS
+after_success:
+- travis_wait 30 Rscript -e 'library(covr);codecov(type="all")' # Calculating code coverage
+
 notifications:
   slack:
-    secure: kOlKCsRSvYuEeH6pmiajdeNTS5yf2g91a2V2kxGHwKAK61I3B7Et00bzelP41cXMBW0t1Ash8iPzw1cbqxKm6tF9MPxP5lqduAWQfW86d8Imiy2kDlo01GKSBuAfFJfLHVwS7wjR0Cl083nmUdruJnzFKruT469Sl48YUYTgVnChtnJUmzTsYUm5tlbju1p92HX3yk4ToOSand9g3dyWrDpjCwp+i16QSyNeUk2drMPPQuuWNqBVSXzf/FmyVGUeuKONIfeQl5fTJncQIq2YSG0naTkd16F4ro1frz5rIgtNnjNgiWbhkLFChI0XePVlsNPiYZXeFsIimS+y5RG3sjLfL7W2p5L/ZJXJju5L4dfGdvCNg7dqAkfD6Af99a0rj7aJU3XUPn0lvTaFmL/ixnqEJIa/3qcDgST2wr5xlxeJaOksGzPy+0uZYhWlkKJeNOt4n5u1nOP4bsFvBzIaFRx8deDn2auuEMhx3BVlpWfkj6+LidTdgBwNEXXlChhwpf8VR7To09RnuvVTvViZjTljbKn0D/eFC8pZTIQ5dTi6DZQVRlqRG4dddeQdZpI+i1lQIFO+nQdOFAZznLetroPo+Tl+oN4oACesieg3D6GJc0oZhQKmPpWIx0Y5J07Q46pd4w6/8zODts/89GLWd+hm/EZHDciCfzE8pbKQ/ZE=
+    secure: FslsSEU2U/Erx3upc42cvyU5c9EFfmMGDIWrHR13IltjJr0EeBJ/wYN51CRszVtO0QHPwiyNizrtdobHGq8rc6F0Tdr0a967Kb1Yu+sJDMpZV5zQoaeO2Vb8yitEuG6Vrcn8EnQlKGsQLWaIkk/gOK1QMYpShACQzzUqBdiOjGpkcT0l2hVV4EuViiZAv1exH7wh84dKIEw45Msss60nZZGpwj3XL/V1RtD3vufMgtF0/VCCdCqIyC0D9WdioiF3A57UhFVp0lVE/HlIG4Ji0sQlqYVzZE+caaZ2VQxPZkGBJ8R23lMH0nL7LPb7v/rB0haEAFZQSUpNYQMQRucTN8ZFp/7045BFAVTBu0Qb5CcuD0tFXNJg3dXJ/mUfOrIbh46UIOHwZnq/WjAuo95JS/mY1k7b8FkIAC+uSMUbAjWgOl6GdyhSNbbBhh2vPGtFlT8WQ0d/A4zDzhXcgTHpjSYTigVo3gis7UNngRCyIUB3ojVDi2C/JcFvNJSMjYoFZqJiNTbkBAljT9OIutUY4nWnpuZxTsbfUdmXFOQKIHqRNJ6HRwPbS5Zhu9hfelj6hdy9f78cn8Np2kNtoTTG/EaHmjhBXVHfJ5Ga9sOxJufbljIZI85HxGKVZzsmPR7319STlUsH4An+CnrzOXlV/uCztjzmwVfBBwv1ZJKRc3M=test
+    #secure: kOlKCsRSvYuEeH6pmiajdeNTS5yf2g91a2V2kxGHwKAK61I3B7Et00bzelP41cXMBW0t1Ash8iPzw1cbqxKm6tF9MPxP5lqduAWQfW86d8Imiy2kDlo01GKSBuAfFJfLHVwS7wjR0Cl083nmUdruJnzFKruT469Sl48YUYTgVnChtnJUmzTsYUm5tlbju1p92HX3yk4ToOSand9g3dyWrDpjCwp+i16QSyNeUk2drMPPQuuWNqBVSXzf/FmyVGUeuKONIfeQl5fTJncQIq2YSG0naTkd16F4ro1frz5rIgtNnjNgiWbhkLFChI0XePVlsNPiYZXeFsIimS+y5RG3sjLfL7W2p5L/ZJXJju5L4dfGdvCNg7dqAkfD6Af99a0rj7aJU3XUPn0lvTaFmL/ixnqEJIa/3qcDgST2wr5xlxeJaOksGzPy+0uZYhWlkKJeNOt4n5u1nOP4bsFvBzIaFRx8deDn2auuEMhx3BVlpWfkj6+LidTdgBwNEXXlChhwpf8VR7To09RnuvVTvViZjTljbKn0D/eFC8pZTIQ5dTi6DZQVRlqRG4dddeQdZpI+i1lQIFO+nQdOFAZznLetroPo+Tl+oN4oACesieg3D6GJc0oZhQKmPpWIx0Y5J07Q46pd4w6/8zODts/89GLWd+hm/EZHDciCfzE8pbKQ/ZE=
