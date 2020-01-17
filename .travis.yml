@@ -44,7 +44,7 @@ matrix:
     # - Dependencies for virtual GUI
     before_install:
       - brew update
-      - brew cask reinstall xquartz 
+      - brew cask install xquartz 
       - brew install tcl-tk
       - brew link --overwrite --force tcl-tk; brew unlink tcl-tk
       - brew install qpdf
