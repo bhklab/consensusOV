@@ -31,6 +31,7 @@ matrix:
           - tcl8.5-dev
           - tk8.5-dev
           - xvfb
+          - libmagick++-dev
     ## TESTING COMMANDS
     script:
       - R CMD build . --resave-data --no-build-vignettes
@@ -47,7 +48,8 @@ matrix:
       - brew install tcl-tk
       - brew link --overwrite --force tcl-tk; brew unlink tcl-tk
       - brew install qpdf
-      - brew install lib2xml
+      - brew install libxml2
+      - brew install imagemagick@6
     ## VIRTUAL GUI
     # - Launches virtual GUI to catch renders on the headless test server
     before_script:
