@@ -3,11 +3,11 @@ Type: Package
 Title: Gene expression-based subtype classification for high-grade
     serous ovarian cancer
 Version: 1.9.1
-Date: 2019-12-04
+Date: 2020-02-21
 Author: Gregory M Chen, Lavanya Kannan, Ludwig Geistlinger, Victor
     Kofia, Levi Waldron, Benjamin Haibe-Kains
 Maintainer: Benjamin Haibe-Kains <benjamin.haibe.kains@utoronto.ca>
-Description: This package implements four major subtype classifiers for
+Description: This software implements four major subtype classifiers for
     high-grade serous (HGS) ovarian cancer as described by Helland
     et al. (PLoS One, 2011), Bentink et al. (PLoS One, 2012),
     Verhaak et al. (J Clin Invest, 2013), and Konecny et al. (J
