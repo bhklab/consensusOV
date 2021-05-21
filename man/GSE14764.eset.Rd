@@ -4,7 +4,9 @@
 \name{GSE14764.eset}
 \alias{GSE14764.eset}
 \title{Sample ExpressionSet from MetaGxOvarian}
-\format{A Biobase::ExpressionSet object}
+\format{
+A Biobase::ExpressionSet object
+}
 \source{
 \url{http://biorxiv.org/content/biorxiv/early/2016/05/12/052910.full.pdf}
 }
