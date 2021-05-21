@@ -1,5 +1,9 @@
 [![R-CMD-check](https://github.com/bhklab/consensusOV/workflows/R-CMD-check/badge.svg)](https://github.com/bhklab/consensusOV/actions)
 
+**Bioc-Release**: ![Bioconductor RELEASE](http://bioconductor.org/shields/build/release/bioc/consensusOV.svg)
+
+**Bioc-Devel**: ![Bioconductor DEVEL](http://bioconductor.org/shields/build/devel/bioc/consensusOV.svg)
+
 
 Overview
 --------
