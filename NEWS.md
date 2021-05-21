@@ -4,7 +4,7 @@
 - Refactored DESCRIPTION to use the Authors@R format
 - Updated NEWS file to NEWS.md format and added patch notes
 
-## v1.14.0
+## v1.15.0
 - Bioconductor 3.13 release
 
 ## v1.8.0
