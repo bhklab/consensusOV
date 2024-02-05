@@ -31,7 +31,7 @@ Imports:
     methods,
     BiocParallel
 URL: http://www.pmgenomics.ca/bhklab/software/consensusOV
-Suggests: BiocStyle, ggplot2, knitr, rmarkdown
+Suggests: BiocStyle, ggplot2, knitr, rmarkdown, magick
 VignetteBuilder: knitr
 Encoding: UTF-8
 RoxygenNote: 7.3.1

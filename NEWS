@@ -1,6 +1,0 @@
-CHANGES IN VERSION 1.8.0
--------------------------
-
-    o New function `get.hao.subtypes` to  predict the tissue of origin of ovarian 
-      tumors as either fallopian tube (FT) or ovarian surface epithelium (OSE) 
-      based on Hao et al., Clin Cancer Res, 2017 

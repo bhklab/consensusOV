@@ -4,9 +4,12 @@
 \alias{get.subtypes}
 \title{Get ovarian cancer subtypes}
 \usage{
-get.subtypes(expression.dataset, entrez.ids = NULL,
+get.subtypes(
+  expression.dataset,
+  entrez.ids = NULL,
   method = c("consensusOV", "Helland", "Verhaak", "Konecny", "Bentink"),
-  ...)
+  ...
+)
 }
 \arguments{
 \item{expression.dataset}{Either a matrix of gene expression values with rows

@@ -71,6 +71,7 @@ consensus.subtypes$consensusOV.subtypes
 
 ```{r alternative_subtyping}
 ## Alternatively, e.g.
+data(sigOvcAngiogenic)
 bentink.subtypes <- get.subtypes(GSE14764.expression.matrix, GSE14764.entrez.ids, method = "Bentink")
 ```
 

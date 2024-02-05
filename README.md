@@ -1,5 +1,9 @@
-# consensusOV #
-[![Travis Build Status](https://travis-ci.org/bhklab/consensusOV.svg?branch=master)](https://travis-ci.org/bhklab/consensusOV) [![codecov](https://codecov.io/gh/bhklab/consensusOV/branch/master/graph/badge.svg)](https://codecov.io/gh/bhklab/consensusOV) [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/vwhhs1u13uflswvn/branch/master?svg=true)](https://ci.appveyor.com/project/kofiav/consensusOV)
+[![R-CMD-check](https://github.com/bhklab/consensusOV/workflows/R-CMD-check/badge.svg)](https://github.com/bhklab/consensusOV/actions)
+
+**Bioc-Release**: ![Bioconductor RELEASE](http://bioconductor.org/shields/build/release/bioc/consensusOV.svg)
+
+**Bioc-Devel**: ![Bioconductor DEVEL](http://bioconductor.org/shields/build/devel/bioc/consensusOV.svg)
+
 
 Overview
 --------
