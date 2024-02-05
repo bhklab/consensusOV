@@ -4,9 +4,12 @@
 \alias{dataset.merging}
 \title{Merging all individual esets and merging them into a big eset}
 \usage{
-dataset.merging(esets, method = c("union", "intersect"),
+dataset.merging(
+  esets,
+  method = c("union", "intersect"),
   standardization = c("quantile", "robust.scaling", "scaling", "none"),
-  nthread = 1)
+  nthread = 1
+)
 }
 \arguments{
 \item{esets}{The list containing all GSE file that need to be merged.}
