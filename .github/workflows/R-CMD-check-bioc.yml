@@ -69,8 +69,8 @@ jobs:
             rspm: "https://packagemanager.rstudio.com/cran/__linux__/focal/latest",
             github: "bhklab/CoreGx"
           }
-          - { os: windows-latest, r: '4.3', bioc: '3.19'}
-          - { os: macOS-latest, r: '4.3', bioc: '3.19'}
+          - { os: windows-latest, r: '4.4', bioc: '3.19'}
+          - { os: macOS-latest, r: '4.4', bioc: '3.19'}
           - { os: windows-latest, r: '4.3', bioc: '3.18'}
           - { os: macOS-latest, r: '4.3', bioc: '3.18'}
     env:
