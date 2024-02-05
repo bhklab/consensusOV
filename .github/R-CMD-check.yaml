@@ -11,18 +11,24 @@ on:
 name: R-CMD-check
 
 jobs:
-  R-CMD-check:
+  build-check:
     runs-on: ${{ matrix.config.os }}
-
     name: ${{ matrix.config.os }} (${{ matrix.config.r }})
+    container: ${{ matrix.config.cont }}
+    ## Environment variables unique to this job.
 
     strategy:
       fail-fast: false
       matrix:
         config:
-          - {os: windows-latest, r: '4.1'}
-          - {os: macOS-latest, r: '4.1'}
-          - {os: ubuntu-20.04, r: '4.1', rspm: "https://packagemanager.rstudio.com/cran/__linux__/focal/latest"}
+          - {
+            os: ubuntu-latest,
+            r: '4.4',
+            bioc: '3.19',
+            cont: 'bioconductor/bioconductor_docker:devel', #"bioconductor/bioconductor_docker:RELEASE_3_16",
+            rspm: "https://packagemanager.rstudio.com/cran/__linux__/focal/latest",
+            github: "bhklab/CoreGx@release"
+            }
 
     env:
       R_REMOTES_NO_ERRORS_FROM_WARNINGS: true
