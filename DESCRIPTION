@@ -4,8 +4,15 @@ Title: Gene expression-based subtype classification for high-grade
     serous ovarian cancer
 Version: 1.25.1
 Date: 2024-02-05
-Author: Gregory M Chen, Lavanya Kannan, Ludwig Geistlinger, Victor
-    Kofia, Levi Waldron, Benjamin Haibe-Kains
+Authors@R: c(
+  person('Gregory', 'Chen', 'M', role=c('aut')),
+  person('Lavanya', 'Kannan', role=c('aut')),
+  person('Ludwig', 'Geistlinger', role=c('aut')),
+  person('Victor', 'Kofia', role=c('aut')),
+  person('Levi', 'Waldron', role=c('aut')),
+  person('Christopher', 'Eeles', email='christopher.eeles@uhnresearch.ca', role=c('ctb')),
+  person('Benjamin', 'Haibe-Kains', email='benjamin.haibe.kains@utoronto.ca', role=c('aut', 'cre'))
+  )
 Maintainer: Benjamin Haibe-Kains <benjamin.haibe.kains@utoronto.ca>
 Description: This package implements four major subtype classifiers for
     high-grade serous (HGS) ovarian cancer as described by Helland
