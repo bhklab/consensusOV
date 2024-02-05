@@ -27,7 +27,7 @@ License: Artistic-2.0
 Depends: R (>= 3.6)
 Imports: 
     Biobase,
-    GSVA,
+    GSVA (>= 1.50.0),
     gdata,
     genefu,
     limma,
