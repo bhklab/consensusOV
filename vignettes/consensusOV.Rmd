@@ -55,7 +55,12 @@ helland.subtypes$Helland.subtypes
 ```
 
 ```{r subtyping2, results="hide"}
-verhaak.subtypes <- get.subtypes(GSE14764.eset, method = "Verhaak")
+
+# to align with the Verhaak subtypes, we need to remove the "geneid." in the rownames
+temp_eset <- GSE14764.eset
+rownames(temp_eset) <- gsub("geneid.", "", rownames(temp_eset))
+
+verhaak.subtypes <- get.subtypes(temp_eset, method = "Verhaak")
 ```
 
 ```{r subtyping3}

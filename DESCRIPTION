@@ -2,8 +2,8 @@ Package: consensusOV
 Type: Package
 Title: Gene expression-based subtype classification for high-grade
     serous ovarian cancer
-Version: 1.15.1
-Date: 2021-05-21
+Version: 1.25.1
+Date: 2024-02-05
 Authors@R: c(
   person('Gregory', 'Chen', 'M', role=c('aut')),
   person('Lavanya', 'Kannan', role=c('aut')),
@@ -13,6 +13,7 @@ Authors@R: c(
   person('Christopher', 'Eeles', email='christopher.eeles@uhnresearch.ca', role=c('ctb')),
   person('Benjamin', 'Haibe-Kains', email='benjamin.haibe.kains@utoronto.ca', role=c('aut', 'cre'))
   )
+Maintainer: Benjamin Haibe-Kains <benjamin.haibe.kains@utoronto.ca>
 Description: This package implements four major subtype classifiers for
     high-grade serous (HGS) ovarian cancer as described by Helland
     et al. (PLoS One, 2011), Bentink et al. (PLoS One, 2012),
@@ -24,13 +25,23 @@ Description: This package implements four major subtype classifiers for
     tumors of clearly defined subtype.
 License: Artistic-2.0
 Depends: R (>= 3.6)
-Imports: Biobase, GSVA, gdata, genefu, limma, matrixStats,
-    randomForest, stats, utils, methods
+Imports: 
+    Biobase,
+    GSVA (>= 1.50.0),
+    gdata,
+    genefu,
+    limma,
+    matrixStats,
+    randomForest,
+    stats,
+    utils,
+    methods,
+    BiocParallel
 URL: http://www.pmgenomics.ca/bhklab/software/consensusOV
 Suggests: BiocStyle, ggplot2, knitr, rmarkdown, magick
 VignetteBuilder: knitr
 Encoding: UTF-8
-RoxygenNote: 7.1.1
+RoxygenNote: 7.3.1
 LazyData: true
 biocViews: Classification, Clustering, DifferentialExpression,
     GeneExpression, Microarray, Transcriptomics
